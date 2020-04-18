@@ -19,6 +19,7 @@ export interface IScatterPlotProps {
 export const ScatterPlot = ({ data, xDomain, yDomain }: IScatterPlotProps) => {
 
     const initialHoverIndex = null;
+    const [showLabel, setShowLabel] = useState(false);
     const [hoverIndex, setHoverIndex] = useState(initialHoverIndex as (number | null))
 
     const xAxisGroup = useRef(null);
@@ -54,9 +55,11 @@ export const ScatterPlot = ({ data, xDomain, yDomain }: IScatterPlotProps) => {
     }, [xScale, yScale]);
 
     useEffect(() => {
-        console.log(hoverIndex);
-    }, [hoverIndex])
+        console.log(showLabel);
+    }, [showLabel])
 
+    const hoverItem = data[hoverIndex ?? -1];
+    const labelLeft = hoverItem ? xScale(hoverItem.x) > width - 130 : false;
 
     return (
         <svg
@@ -71,12 +74,43 @@ export const ScatterPlot = ({ data, xDomain, yDomain }: IScatterPlotProps) => {
                     xScale={xScale}
                     yScale={yScale}
                     onMouseEnter={(i) => {
+                        setShowLabel(true);
                         setHoverIndex(i);
                     }}
                     onMouseLeave={() => {
-                        setHoverIndex(null);
+                        setShowLabel(false);
                     }}
                 />
+                <g
+                >
+                    <CSSTransition
+                        in={showLabel}
+                        className="label-container"
+                        unmountOnExit
+                        timeout={500}
+                    >
+                        <g
+                            className="label-container"
+                            transform={`translate(${xScale(hoverItem?.x ?? 0)}, ${yScale(hoverItem?.y ?? 0)})`}
+                        >
+                            <foreignObject
+                                width="100"
+                                height="50"
+                                x={labelLeft ? -113 : 13}
+                                y="-25"
+                            >
+                                <div
+                                    className="label"
+                                    style={{
+                                        justifyContent: labelLeft ? 'right' : 'left'
+                                    }}
+                                >
+                                    <div className="label-text">{hoverItem?.label ?? ''}</div>
+                                </div>
+                            </foreignObject>
+                        </g>
+                    </CSSTransition>
+                </g>
             </g>
             <g
                 ref={xAxisGroup}
@@ -109,7 +143,7 @@ const Points = ({ data, xScale, yScale, onMouseEnter, onMouseLeave }: IPointsPro
                 enter={true}
                 exit={true}
             >
-                {data.map(({ x, y, id, label }, i) =>
+                {data.map(({ x, y, id }, i) =>
                     <CSSTransition
                         key={id}
                         timeout={300}
@@ -120,17 +154,6 @@ const Points = ({ data, xScale, yScale, onMouseEnter, onMouseLeave }: IPointsPro
                             className="point"
                             transform={`translate(${xScale(x)}, ${yScale(y)})`}
                         >
-                            <foreignObject
-                                className="label-container"
-                                width="100"
-                                height="50"
-                                x="13"
-                                y="-25"
-                            >
-                                <div className="label">
-                                    <div className="label-text">{label}</div>
-                                </div>
-                            </foreignObject>
                             <circle
                                 onMouseEnter={() => onMouseEnter(i)}
                                 onMouseLeave={() => onMouseLeave(i)}

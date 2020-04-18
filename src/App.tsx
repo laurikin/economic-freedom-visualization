@@ -15,8 +15,8 @@ const App = () => {
             {
                 id: '2',
                 label: 'Sweden',
-                x: 3,
-                y: 2
+                x: 0.2,
+                y: 0.1
             },
             {
                 id: '3',
@@ -69,7 +69,8 @@ const App = () => {
         <React.Fragment>
             <div
                 style={{
-                    padding: 40
+                    padding: 40,
+                    maxWidth: 800
                 }}
             >
                 <ScatterPlot

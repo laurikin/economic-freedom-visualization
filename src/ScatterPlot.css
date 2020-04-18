@@ -42,33 +42,41 @@
     fill: blue;
 }
 
-.scatterplot .point .label {
+.scatterplot .label {
     height: 100%;
     width: 100%;
     align-items: center;
     justify-content: left;
     font-size: 12px;
-    opacity: 0;
     display: grid;
     transition: opacity 200ms ease-in-out;
 }
 
-.scatterplot .point.highlighted .label {
+.scatterplot .label-container.enter {
+    opacity: 0;
+}
+
+.scatterplot .label-container.enter-active {
+    opacity: 1;
+    transition: opacity 300ms;
+}
+
+.scatterplot .label-contaienr.exit {
     opacity: 1;
 }
 
-.scatterplot .label-container {
-    visibility: hidden;
-    transition: visibility 0s;
-    transition-delay: 500ms;
+.scatterplot .label-container.exit-active {
+    opacity: 0;
+    transition: opacity 200ms;
 }
 
-.scatterplot .point.high .label-container {
-    visibility: visible;
-    transition-delay: 0s;
+.scatterplot .label-container.exit-done {
+    opacity: 0;
 }
 
-.scatterplot .point .label-text {
+
+
+.scatterplot .label-text {
     padding: 2px 5px;
     maxWidth: 100%;
     border: 1px solid #777777;
