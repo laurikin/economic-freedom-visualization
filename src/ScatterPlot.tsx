@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useMemo } from 'react';
+import React, { useEffect, useRef, useMemo, useState } from 'react';
 import * as d3 from 'd3';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import './ScatterPlot.css';
 
 export type IScatterPlotData = {
@@ -16,6 +17,9 @@ export interface IScatterPlotProps {
 }
 
 export const ScatterPlot = ({ data, xDomain, yDomain }: IScatterPlotProps) => {
+
+    const initialHoverIndex = null;
+    const [hoverIndex, setHoverIndex] = useState(initialHoverIndex as (number | null))
 
     const xAxisGroup = useRef(null);
     const yAxisGroup = useRef(null);
@@ -49,6 +53,11 @@ export const ScatterPlot = ({ data, xDomain, yDomain }: IScatterPlotProps) => {
 
     }, [xScale, yScale]);
 
+    useEffect(() => {
+        console.log(hoverIndex);
+    }, [hoverIndex])
+
+
     return (
         <svg
             className="scatterplot"
@@ -57,8 +66,55 @@ export const ScatterPlot = ({ data, xDomain, yDomain }: IScatterPlotProps) => {
             <g
                 transform={`translate(${margin} ${margin})`}
             >
-                {
-                    data.map(({ x, y, id, label }) =>
+                <Points
+                    data={data}
+                    xScale={xScale}
+                    yScale={yScale}
+                    onMouseEnter={(i) => {
+                        setHoverIndex(i);
+                    }}
+                    onMouseLeave={() => {
+                        setHoverIndex(null);
+                    }}
+                />
+            </g>
+            <g
+                ref={xAxisGroup}
+                transform={`translate(${margin}, ${height + margin + 20})`}
+            />
+            <g ref={yAxisGroup}
+                transform={`translate(${margin - 20}, ${margin})`}
+            />
+        </svg >
+    );
+
+};
+
+export interface IPointsProps {
+    data: IScatterPlotData;
+    xScale: d3.ScaleLinear<number, number>;
+    yScale: d3.ScaleLinear<number, number>;
+    onMouseEnter: (ind: number) => void;
+    onMouseLeave: (ind: number) => void;
+}
+
+const Points = ({ data, xScale, yScale, onMouseEnter, onMouseLeave }: IPointsProps) => {
+
+    return (
+        <g>
+            <TransitionGroup
+                className="point-group"
+                component={null}
+                appear={true}
+                enter={true}
+                exit={true}
+            >
+                {data.map(({ x, y, id, label }, i) =>
+                    <CSSTransition
+                        key={id}
+                        timeout={300}
+                        classNames="point"
+                    >
                         <g
                             key={id}
                             className="point"
@@ -75,21 +131,14 @@ export const ScatterPlot = ({ data, xDomain, yDomain }: IScatterPlotProps) => {
                                     <div className="label-text">{label}</div>
                                 </div>
                             </foreignObject>
-                            <circle />
+                            <circle
+                                onMouseEnter={() => onMouseEnter(i)}
+                                onMouseLeave={() => onMouseLeave(i)}
+                            />
                         </g>
-                    )
-                }
-            </g >
-            <g>
-                <g
-                    ref={xAxisGroup}
-                    transform={`translate(${margin}, ${height + margin + 20})`}
-                />
-                <g ref={yAxisGroup}
-                    transform={`translate(${margin - 20}, ${margin})`}
-                />
-            </g>
-        </svg >
+                    </CSSTransition>
+                )}
+            </TransitionGroup>
+        </g >
     );
-
-};
+}

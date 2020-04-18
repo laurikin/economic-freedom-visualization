@@ -47,7 +47,7 @@ const App = () => {
             },
             {
                 label: 'Norway',
-                id: '3',
+                id: '5',
                 x: 3,
                 y: 1
             },
