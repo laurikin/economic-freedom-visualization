@@ -1,5 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useMemo } from 'react';
 import * as d3 from 'd3';
+import './ScatterPlot.css';
 
 export type IScatterPlotData = {
     id: string;
@@ -23,13 +24,17 @@ export const ScatterPlot = ({ data, xDomain, yDomain }: IScatterPlotProps) => {
     const width = 600;
     const height = 500
 
-    const xScale = d3.scaleLinear()
-        .domain(xDomain)
-        .range([0, width]);
+    const xScale = useMemo(() => (
+        d3.scaleLinear()
+            .domain(xDomain)
+            .range([0, width])
+    ), [xDomain])
 
-    const yScale = d3.scaleLinear()
-        .domain(yDomain)
-        .range([0, height]);
+    const yScale = useMemo(() => (
+        d3.scaleLinear()
+            .domain(yDomain)
+            .range([0, height])
+    ), [yDomain])
 
     useEffect(() => {
         const xAxis = d3.axisBottom(xScale)
@@ -42,42 +47,46 @@ export const ScatterPlot = ({ data, xDomain, yDomain }: IScatterPlotProps) => {
         ySelection.selectAll('g').remove()
         ySelection.append('g').call(yAxis);
 
-    }, [...xDomain, ...yDomain]);
+    }, [xScale, yScale]);
 
     return (
         <svg
+            className="scatterplot"
             viewBox={`0, 0, ${width + margin * 2}, ${height + margin * 2}`}
-            style={{
-                background: '#ccc'
-            }}
         >
             <g
                 transform={`translate(${margin} ${margin})`}
-                style={{
-                    background: 'white'
-                }}
             >
                 {
-                    data.map(({ x, y, id }) =>
-                        <circle
-                            style={{
-                                transition: 'all 500ms ease-in-out'
-                            }}
+                    data.map(({ x, y, id, label }) =>
+                        <g
                             key={id}
+                            className="point"
                             transform={`translate(${xScale(x)}, ${yScale(y)})`}
-                            r="5"
                         >
-                        </circle>
+                            <foreignObject
+                                className="label-container"
+                                width="100"
+                                height="50"
+                                x="13"
+                                y="-25"
+                            >
+                                <div className="label">
+                                    <div className="label-text">{label}</div>
+                                </div>
+                            </foreignObject>
+                            <circle />
+                        </g>
                     )
                 }
             </g >
             <g>
                 <g
                     ref={xAxisGroup}
-                    transform={`translate(${margin}, ${height + margin + 10})`}
+                    transform={`translate(${margin}, ${height + margin + 20})`}
                 />
                 <g ref={yAxisGroup}
-                    transform={`translate(${margin - 10}, ${margin})`}
+                    transform={`translate(${margin - 20}, ${margin})`}
                 />
             </g>
         </svg >

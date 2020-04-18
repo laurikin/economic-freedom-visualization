@@ -1,0 +1,51 @@
+
+.scatterplot .point {
+    transition: all 500ms ease-in-out;
+}
+
+.scatterplot .point circle {
+    transition: all 200ms ease-in-out;
+    fill: steelblue;
+    r: 5;
+}
+
+.scatterplot .point circle:hover {
+    r: 8;
+    cursor: pointer;
+    fill: blue;
+}
+
+.scatterplot .point .label {
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: left;
+    font-size: 12px;
+    opacity: 0;
+    display: grid;
+    transition: opacity 200ms ease-in-out;
+}
+
+.scatterplot .point:hover .label {
+    opacity: 1;
+}
+
+.scatterplot .label-container {
+    visibility: hidden;
+    transition: visibility 0s;
+    transition-delay: 500ms;
+}
+
+.scatterplot .point:hover .label-container {
+    visibility: visible;
+    transition-delay: 0s;
+}
+
+.scatterplot .point .label-text {
+    padding: 2px 5px;
+    maxWidth: 100%;
+    border: 1px solid #777777;
+    color: #333;
+    border-radius: 2px;
+    background: white;
+}
