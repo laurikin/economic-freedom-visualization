@@ -1,29 +1,48 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 
 export type IScatterPlotData = {
-    id: string,
-    x: number,
-    y: number
+    id: string;
+    label: string | undefined;
+    x: number;
+    y: number;
 }[]
 
 export interface IScatterPlotProps {
-    data: IScatterPlotData
+    data: IScatterPlotData;
+    xDomain: [number, number];
+    yDomain: [number, number];
 }
 
-export const ScatterPlot = ({ data }: IScatterPlotProps) => {
+export const ScatterPlot = ({ data, xDomain, yDomain }: IScatterPlotProps) => {
 
-    const margin = 20;
+    const xAxisGroup = useRef(null);
+    const yAxisGroup = useRef(null);
+
+    const margin = 60;
     const width = 600;
     const height = 500
 
     const xScale = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d.x) ?? 0])
+        .domain(xDomain)
         .range([0, width]);
 
     const yScale = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d.y) ?? 0])
+        .domain(yDomain)
         .range([0, height]);
+
+    useEffect(() => {
+        const xAxis = d3.axisBottom(xScale)
+        const xSelection = d3.select(xAxisGroup.current)
+        xSelection.selectAll('g').remove()
+        xSelection.append('g').call(xAxis);
+
+        const yAxis = d3.axisLeft(yScale)
+        const ySelection = d3.select(yAxisGroup.current)
+        ySelection.selectAll('g').remove()
+        ySelection.append('g').call(yAxis);
+
+    }, [...xDomain, ...yDomain]);
 
     return (
         <svg
@@ -33,7 +52,7 @@ export const ScatterPlot = ({ data }: IScatterPlotProps) => {
             }}
         >
             <g
-                transform={`matrix(1 0 0 -1 ${margin} ${height + margin})`}
+                transform={`translate(${margin} ${margin})`}
                 style={{
                     background: 'white'
                 }}
@@ -52,6 +71,15 @@ export const ScatterPlot = ({ data }: IScatterPlotProps) => {
                     )
                 }
             </g >
+            <g>
+                <g
+                    ref={xAxisGroup}
+                    transform={`translate(${margin}, ${height + margin + 10})`}
+                />
+                <g ref={yAxisGroup}
+                    transform={`translate(${margin - 10}, ${margin})`}
+                />
+            </g>
         </svg >
     );
 
