@@ -77,17 +77,32 @@ export const ScatterPlot = ({ data, xDomain, yDomain }: IScatterPlotProps) => {
                         setShowLabel(true);
                         setHoverIndex(i);
                     }}
-                    onMouseLeave={() => {
-                        setShowLabel(false);
-                    }}
+                    onMouseLeave={() => { }}
                 />
                 <g
                 >
                     <CSSTransition
                         in={showLabel}
+                        className="highlight"
+                        unmountOnExit
+                        timeout={300}
+                    >
+                        <g
+                            className="highlight"
+                            transform={`translate(${xScale(hoverItem?.x ?? 0)}, ${yScale(hoverItem?.y ?? 0)})`}
+                        >
+                            <circle
+                                onMouseLeave={() => {
+                                    setShowLabel(false);
+                                }}
+                            />
+                        </g>
+                    </CSSTransition>
+                    <CSSTransition
+                        in={showLabel}
                         className="label-container"
                         unmountOnExit
-                        timeout={500}
+                        timeout={300}
                     >
                         <g
                             className="label-container"

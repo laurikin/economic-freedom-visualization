@@ -1,11 +1,35 @@
+.scatterplot {
+    fill: steelblue;
+}
+
+.scatterplot .highlight circle {
+    r: 8;
+    cursor: pointer;
+}
+
+.scatterplot .highlight.enter circle {
+    r: 5;
+}
+
+.scatterplot .highlight.enter-active circle {
+    r: 8;
+    transition: r 300ms ease-in-out;
+}
+
+.scatterplot .highlight.exit circle {
+    r: 8;
+}
+
+.scatterplot .highlight.exit-active circle {
+    r: 5;
+    transition: r 300ms ease-in-out;
+}
 
 .scatterplot .point {
     transition: all 300ms ease-in-out;
 }
 
 .scatterplot .point circle {
-    transition: all 300ms ease-in-out;
-    fill: steelblue;
     r: 5;
 }
 
@@ -15,7 +39,7 @@
 
 .scatterplot .point-appear-done circle {
     r: 5;
-    transition: all 300ms ease-in-out;
+    transition: r 300ms ease-in-out;
 }
 
 .scatterplot .point-enter circle {
@@ -24,7 +48,7 @@
 
 .scatterplot .point-enter-active circle {
     r: 5;
-    transition: all 300ms ease-in-out;
+    transition: r 300ms ease-in-out;
 }
 
 .scatterplot .point-exit circle {
@@ -34,12 +58,6 @@
 .scatterplot .point-exit-active circle {
     r: 0;
     transition: all 300ms ease-in-out;
-}
-
-.scatterplot .point:hover circle {
-    r: 8;
-    cursor: pointer;
-    fill: blue;
 }
 
 .scatterplot .label {
