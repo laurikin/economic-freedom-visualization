@@ -1,69 +1,14 @@
 import React, { useState } from 'react';
-import * as d3 from 'd3';
-import { ScatterPlot, IScatterPlotData } from './ScatterPlot';
+import { ScatterPlot } from './ScatterPlot';
+import { datas, years } from './data';
 
 const App = () => {
 
-    const datas: IScatterPlotData[] = [
-        [
-            {
-                id: '1',
-                label: 'Finland',
-                x: 0,
-                y: 0
-            },
-            {
-                id: '2',
-                label: 'Sweden',
-                x: 0.1,
-                y: 0.1
-            },
-            {
-                id: '3',
-                label: 'Norway',
-                x: 4,
-                y: 6
-            },
-            {
-                id: '4',
-                label: 'Denmark',
-                x: 10,
-                y: 10
-            }
-        ],
+    const [dataInd, setDataInd] = useState(0)
 
-        [
-            {
-                id: '1',
-                label: 'Finland',
-                x: 1,
-                y: 0
-            },
-            {
-                id: '2',
-                label: 'Sweden',
-                x: 4,
-                y: 2
-            },
-            {
-                label: 'Norway',
-                id: '5',
-                x: 3,
-                y: 1
-            },
-            {
-                id: '4',
-                label: 'Denmark',
-                x: 3,
-                y: 7
-            }
-        ]
-    ]
-
-    const [dataInd, setDataInd] = useState(1);
-    const data = datas[dataInd % 2];
-    const xDomain: [number, number] = [0, d3.max(data, d => d.x) ?? 0];
-    const yDomain: [number, number] = [d3.max(data, d => d.y) ?? 0, 0];
+    const data = datas[dataInd % years.length]
+    const xDomain: [number, number] = [0, 10]
+    const yDomain: [number, number] = [10, 0]
 
     return (
         <React.Fragment>
@@ -78,17 +23,28 @@ const App = () => {
                     yDomain={yDomain}
                     data={data}
                 />
+
+                <input
+                    style={{
+                        width: '100%'
+                    }}
+                    type="range"
+                    value={dataInd}
+                    onChange={(e) => {
+                        e.preventDefault()
+                        e.stopPropagation()
+
+                        setDataInd(parseInt(e.currentTarget.value, 10))
+                    }}
+                    min="0"
+                    max="2"
+                />
+
+                <div>{years[dataInd]}</div>
             </div>
 
-            <button
-                onClick={() => {
-                    setDataInd(dataInd + 1)
-                }}
-            >
-                Swap data
-            </button>
         </React.Fragment>
     )
 }
 
-export default App;
+export default App

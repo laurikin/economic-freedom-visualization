@@ -42,8 +42,14 @@ export const Points = ({ data, xScale, yScale, selected, onMouseEnter, onMouseLe
                             transform={`translate(${xScale(x)}, ${yScale(y)})`}
                         >
                             <circle
-                                onMouseEnter={() => onMouseEnter(i)}
-                                onMouseLeave={() => onMouseLeave(i)}
+                                onMouseEnter={(e) => {
+                                    e.stopPropagation();
+                                    onMouseEnter(i)
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.stopPropagation();
+                                    onMouseLeave(i)
+                                }}
                             />
                         </g>
                     </CSSTransition>
