@@ -107,7 +107,7 @@ export const ScatterPlot = ({ data, xDomain, yDomain }: IScatterPlotProps) => {
                             <foreignObject
                                 width="100"
                                 height="50"
-                                x={labelLeft ? -113 : 13}
+                                x={labelLeft ? -115 : 15}
                                 y="-25"
                             >
                                 <div

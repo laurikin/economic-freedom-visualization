@@ -3,25 +3,25 @@
 }
 
 .scatterplot .highlight circle {
-    r: 8;
+    r: 10;
     cursor: pointer;
 }
 
 .scatterplot .highlight.enter circle {
-    r: 5;
+    r: 7;
 }
 
 .scatterplot .highlight.enter-active circle {
-    r: 8;
+    r: 10;
     transition: r 300ms ease-in-out;
 }
 
 .scatterplot .highlight.exit circle {
-    r: 8;
+    r: 10;
 }
 
 .scatterplot .highlight.exit-active circle {
-    r: 5;
+    r: 7;
     transition: r 300ms ease-in-out;
 }
 
