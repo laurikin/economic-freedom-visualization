@@ -43,6 +43,7 @@ export const ScatterPlot = ({ data, xDomain, yDomain }: IScatterPlotProps) => {
         selected.some(s => s)
     ), [selected])
 
+    // use d3 to render the axes after mounting the component
     useEffect(() => {
         const xAxis = d3.axisBottom(xScale)
         const xSelection = d3.select(xAxisGroup.current)
@@ -56,6 +57,7 @@ export const ScatterPlot = ({ data, xDomain, yDomain }: IScatterPlotProps) => {
 
     }, [xScale, yScale])
 
+    // make sure label is hidden when new data is rendered
     useEffect(() => {
         setShowLabel(false)
         setHoverIndex(null)
