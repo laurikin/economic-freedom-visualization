@@ -16,7 +16,7 @@ export const datas = [
         },
         {
             id: '3',
-            label: 'Norway',
+            label: 'Iceland',
             x: 4,
             y: 6
         },
