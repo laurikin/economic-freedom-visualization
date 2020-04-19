@@ -3,7 +3,7 @@
 }
 
 .point-group .point circle.selected {
-    fill: steelblue;
+    fill: lightblue;
     r: 8;
 }
 

@@ -10,7 +10,14 @@
 .scatterplot .highlight circle {
     r: 10;
     cursor: pointer;
-    fill: steelblue
+    fill: steelblue;
+    transition: fill 300ms;
+}
+
+.scatterplot .highlight circle.selected {
+    r: 10;
+    cursor: pointer;
+    fill: lightblue;
 }
 
 .scatterplot .highlight.enter circle {
