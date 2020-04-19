@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
-import { ScatterPlot } from './ScatterPlot';
-import { datas, years } from './data';
-import { TrailPlot, ITrailPlotData } from './TrailPlot';
+import React, { useState } from 'react'
+import { ScatterPlot } from './ScatterPlot'
+import { datas, years } from './data'
+import { TrailPlot, ITrailPlotData } from './TrailPlot'
+import './App.css'
 
 const App = () => {
 
     const [dataInd, setDataInd] = useState(0)
+
+    const margin = 60
+    const width = 600
+    const height = 500
 
     const data = datas[dataInd % years.length]
     const xDomain: [number, number] = [0, 10]
@@ -24,23 +29,23 @@ const App = () => {
             ...d,
             year: years[i]
         }))
-        return acc.concat(rows);
-    }, []);
+        return acc.concat(rows)
+    }, [])
 
     const trailplotData: ITrailPlotData = rowData.reduce((acc: ITrailPlotData, row) => {
         acc[row.id] = acc[row.id] || {
             id: row.id,
             label: row.label,
             data: []
-        };
+        }
         acc[row.id].data.push({
             x: row.x,
             y: row.y
-        });
+        })
 
-        const a = acc;
-        return a;
-    }, {});
+        const a = acc
+        return a
+    }, {})
 
     return (
         <React.Fragment>
@@ -50,20 +55,24 @@ const App = () => {
                     maxWidth: 800
                 }}
             >
+                <svg
+                    viewBox={`0, 0, ${width + margin * 2}, ${height + margin * 2}`}
+                >
 
+                    <TrailPlot
+                        xDomain={xDomain}
+                        yDomain={yDomain}
+                        pointIndex={dataInd}
+                        data={trailplotData}
+                    />
 
-                <ScatterPlot
-                    xDomain={xDomain}
-                    yDomain={yDomain}
-                    data={data}
-                />
+                    <ScatterPlot
+                        xDomain={xDomain}
+                        yDomain={yDomain}
+                        data={data}
+                    />
 
-                <TrailPlot
-                    xDomain={xDomain}
-                    yDomain={yDomain}
-                    pointIndex={dataInd}
-                    data={trailplotData}
-                />
+                </svg>
 
                 <input
                     style={{

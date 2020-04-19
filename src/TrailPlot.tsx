@@ -30,6 +30,7 @@ export const TrailPlot = ({ data, xDomain, yDomain, pointIndex }: ITrailPlotProp
     const [go, setGo] = useState(false as boolean)
 
     setImmediate(() => {
+        // trigger the line animation on once component is mounted
         setGo(true)
     })
 

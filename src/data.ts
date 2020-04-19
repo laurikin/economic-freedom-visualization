@@ -11,21 +11,24 @@ export const datas = [
         {
             id: '2',
             label: 'Sweden',
-            x: 0.1,
-            y: 0.1
+            x: 0,
+            y: 2
+        },
+    ],
+
+    [
+        {
+            id: '1',
+            label: 'Finland',
+            x: 0.5,
+            y: 0.5
         },
         {
-            id: '3',
-            label: 'Iceland',
-            x: 4,
-            y: 6
+            id: '2',
+            label: 'Sweden',
+            x: 1,
+            y: 2.5
         },
-        {
-            id: '4',
-            label: 'Denmark',
-            x: 10,
-            y: 10
-        }
     ],
 
     [
@@ -33,133 +36,58 @@ export const datas = [
             id: '1',
             label: 'Finland',
             x: 1,
-            y: 0
+            y: 1
         },
         {
             id: '2',
             label: 'Sweden',
-            x: 9,
-            y: 7
-        },
-        {
-            label: 'Norway',
-            id: '5',
-            x: 3,
-            y: 1
-        },
-        {
-            id: '4',
-            label: 'Denmark',
-            x: 3,
-            y: 7
-        }
-    ],
-
-    [
-        {
-            id: '1',
-            label: 'Finland',
             x: 2,
-            y: 1
-        },
-        {
-            id: '2',
-            label: 'Sweden',
-            x: 1,
             y: 3
         },
-        {
-            id: '5',
-            label: 'Norway',
-            x: 2,
-            y: 7
-        },
-        {
-            id: '4',
-            label: 'Denmark',
-            x: 9,
-            y: 2
-        }
     ],
 
     [
         {
             id: '1',
             label: 'Finland',
-            x: 1,
-            y: 0
-        },
-        {
-            id: '2',
-            label: 'Sweden',
-            x: 5,
-            y: 9
-        },
-        {
-            id: '5',
-            label: 'Norway',
-            x: 3,
-            y: 9
-        },
-        {
-            id: '4',
-            label: 'Denmark',
-            x: 2,
-            y: 8
-        }
-    ],
-
-    [
-        {
-            id: '1',
-            label: 'Finland',
-            x: 1,
-            y: 0
-        },
-        {
-            id: '2',
-            label: 'Sweden',
-            x: 9,
-            y: 7
-        },
-        {
-            label: 'Norway',
-            id: '5',
-            x: 3,
+            x: 1.5,
             y: 1
         },
         {
-            id: '4',
-            label: 'Denmark',
-            x: 3,
-            y: 7
-        }
+            id: '2',
+            label: 'Sweden',
+            x: 2,
+            y: 4
+        },
     ],
 
     [
         {
             id: '1',
             label: 'Finland',
-            x: 1,
-            y: 0
+            x: 2,
+            y: 1.5
         },
         {
             id: '2',
             label: 'Sweden',
-            x: 5,
-            y: 9
+            x: 1.5,
+            y: 4
         },
+    ],
+
+    [
         {
-            id: '5',
-            label: 'Norway',
+            id: '1',
+            label: 'Finland',
             x: 3,
-            y: 9
+            y: 2
         },
         {
-            id: '4',
-            label: 'Denmark',
-            x: 2,
-            y: 8
-        }
+            id: '2',
+            label: 'Sweden',
+            x: 1.5,
+            y: 3.5
+        },
     ],
 ]
