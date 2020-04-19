@@ -55,8 +55,8 @@ export const ScatterPlot = ({ data, xDomain, yDomain }: IScatterPlotProps) => {
     }, [xScale, yScale]);
 
     useEffect(() => {
-        console.log(showLabel);
-    }, [showLabel])
+        setHoverIndex(null);
+    }, [data]);
 
     const hoverItem = data[hoverIndex ?? -1];
     const labelLeft = hoverItem ? xScale(hoverItem.x) > width - 130 : false;
