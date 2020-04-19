@@ -38,11 +38,10 @@ export const Points = ({ data, xScale, yScale, selected, onMouseEnter, onMouseLe
                     >
                         <g
                             key={id}
-                            className="point"
+                            className={`point ${selected[i] === true ? 'selected' : ''}`}
                             transform={`translate(${xScale(x)}, ${yScale(y)})`}
                         >
                             <circle
-                                className={`${selected[i] === true ? 'selected' : ''}`}
                                 onMouseEnter={() => onMouseEnter(i)}
                                 onMouseLeave={() => onMouseLeave(i)}
                             />

@@ -95,7 +95,10 @@ export const ScatterPlot = ({ data, xDomain, yDomain }: IScatterPlotProps) => {
                             transform={`translate(${xScale(hoverItem?.x ?? 0)}, ${yScale(hoverItem?.y ?? 0)})`}
                         >
                             <circle
-                                className={`${hoverIndex && selected[hoverIndex] ? 'selected' : ''}`}
+                                className={`
+                                    ${hoverIndex !== null && selected[hoverIndex] ? 'selected' : ''}
+                                    ${selection ? 'selection-mode' : ''}
+                                `}
                                 onClick={() => {
                                     if (hoverIndex !== null) {
                                         const newSelected = selected.slice(0)
