@@ -1,17 +1,13 @@
 import React, { useEffect, useRef, useMemo, useState } from 'react';
 import * as d3 from 'd3';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import { CSSTransition } from 'react-transition-group';
+import { Points, IPointsData } from './Points';
 import './ScatterPlot.css';
 
-export type IScatterPlotData = {
-    id: string;
-    label: string | undefined;
-    x: number;
-    y: number;
-}[]
+export type IScatterPlotData = IPointsData;
 
 export interface IScatterPlotProps {
-    data: IScatterPlotData;
+    data: IPointsData;
     xDomain: [number, number];
     yDomain: [number, number];
 }
@@ -139,44 +135,3 @@ export const ScatterPlot = ({ data, xDomain, yDomain }: IScatterPlotProps) => {
 
 };
 
-export interface IPointsProps {
-    data: IScatterPlotData;
-    xScale: d3.ScaleLinear<number, number>;
-    yScale: d3.ScaleLinear<number, number>;
-    onMouseEnter: (ind: number) => void;
-    onMouseLeave: (ind: number) => void;
-}
-
-const Points = ({ data, xScale, yScale, onMouseEnter, onMouseLeave }: IPointsProps) => {
-
-    return (
-        <g>
-            <TransitionGroup
-                className="point-group"
-                component={null}
-                appear={true}
-                enter={true}
-                exit={true}
-            >
-                {data.map(({ x, y, id }, i) =>
-                    <CSSTransition
-                        key={id}
-                        timeout={300}
-                        classNames="point"
-                    >
-                        <g
-                            key={id}
-                            className="point"
-                            transform={`translate(${xScale(x)}, ${yScale(y)})`}
-                        >
-                            <circle
-                                onMouseEnter={() => onMouseEnter(i)}
-                                onMouseLeave={() => onMouseLeave(i)}
-                            />
-                        </g>
-                    </CSSTransition>
-                )}
-            </TransitionGroup>
-        </g >
-    );
-}

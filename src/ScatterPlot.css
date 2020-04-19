@@ -25,41 +25,6 @@
     transition: r 300ms ease-in-out;
 }
 
-.scatterplot .point {
-    transition: all 300ms ease-in-out;
-}
-
-.scatterplot .point circle {
-    r: 5;
-}
-
-.scatterplot .point-appear circle {
-    r: 0;
-}
-
-.scatterplot .point-appear-done circle {
-    r: 5;
-    transition: r 300ms ease-in-out;
-}
-
-.scatterplot .point-enter circle {
-    r: 0;
-}
-
-.scatterplot .point-enter-active circle {
-    r: 5;
-    transition: r 300ms ease-in-out;
-}
-
-.scatterplot .point-exit circle {
-    r: 5;
-}
-
-.scatterplot .point-exit-active circle {
-    r: 0;
-    transition: all 300ms ease-in-out;
-}
-
 .scatterplot .label {
     height: 100%;
     width: 100%;

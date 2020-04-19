@@ -15,7 +15,7 @@ const App = () => {
             {
                 id: '2',
                 label: 'Sweden',
-                x: 0.2,
+                x: 0.1,
                 y: 0.1
             },
             {
