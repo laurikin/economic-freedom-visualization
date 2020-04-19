@@ -37,7 +37,7 @@ const App = () => {
                         setDataInd(parseInt(e.currentTarget.value, 10))
                     }}
                     min="0"
-                    max="2"
+                    max={years.length - 1}
                 />
 
                 <div>{years[dataInd]}</div>
