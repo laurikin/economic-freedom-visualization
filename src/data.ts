@@ -92,7 +92,6 @@ export const datas = [
         {
             id: '2',
             label: 'Sweden',
-            ear: 2003,
             x: 5,
             y: 9
         },
@@ -147,7 +146,6 @@ export const datas = [
         {
             id: '2',
             label: 'Sweden',
-            ear: 2003,
             x: 5,
             y: 9
         },
