@@ -88,6 +88,9 @@ export const ScatterPlot = ({ data, xDomain, yDomain }: IScatterPlotProps) => {
                             transform={`translate(${xScale(hoverItem?.x ?? 0)}, ${yScale(hoverItem?.y ?? 0)})`}
                         >
                             <circle
+                                onMouseEnter={() => {
+                                    setShowLabel(true);
+                                }}
                                 onMouseLeave={() => {
                                     setShowLabel(false);
                                 }}
