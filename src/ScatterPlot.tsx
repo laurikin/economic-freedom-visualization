@@ -57,6 +57,7 @@ export const ScatterPlot = ({ data, xDomain, yDomain }: IScatterPlotProps) => {
     }, [xScale, yScale])
 
     useEffect(() => {
+        setShowLabel(false)
         setHoverIndex(null)
     }, [data])
 
