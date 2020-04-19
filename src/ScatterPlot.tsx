@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useMemo, useState } from 'react'
 import * as d3 from 'd3'
 import { CSSTransition } from 'react-transition-group'
-import { Points, IPointsData } from './Points'
+import { Points, IPointsData, IPointsDatum, ISelectedIds } from './Points'
 import './ScatterPlot.css'
 
 export type IScatterPlotData = IPointsData
@@ -12,13 +12,14 @@ export interface IScatterPlotProps {
     yDomain: [number, number]
 }
 
+
 export const ScatterPlot = ({ data, xDomain, yDomain }: IScatterPlotProps) => {
 
     const [showLabel, setShowLabel] = useState(false)
-    const [hoverIndex, setHoverIndex] = useState(null as (number | null))
-    const [selected, setSelected] = useState(
-        new Array(data.length).fill(false) as boolean[]
-    )
+    const [hoverItem, setHoverItem] = useState(null as (IPointsDatum | null))
+
+    const initialSelectedIds: ISelectedIds = new Map();
+    const [selectedIds, setSelectedIds] = useState(initialSelectedIds);
 
     const xAxisGroup = useRef(null)
     const yAxisGroup = useRef(null)
@@ -39,9 +40,7 @@ export const ScatterPlot = ({ data, xDomain, yDomain }: IScatterPlotProps) => {
             .range([0, height])
     ), [yDomain])
 
-    const selection = useMemo(() => (
-        selected.some(s => s)
-    ), [selected])
+    const selection = selectedIds.size > 0
 
     // use d3 to render the axes after mounting the component
     useEffect(() => {
@@ -60,10 +59,9 @@ export const ScatterPlot = ({ data, xDomain, yDomain }: IScatterPlotProps) => {
     // make sure label is hidden when new data is rendered
     useEffect(() => {
         setShowLabel(false)
-        setHoverIndex(null)
+        setHoverItem(null)
     }, [data])
 
-    const hoverItem = data[hoverIndex ?? -1]
     const labelLeft = hoverItem ? xScale(hoverItem.x) > width - 130 : false
 
     return (
@@ -78,10 +76,10 @@ export const ScatterPlot = ({ data, xDomain, yDomain }: IScatterPlotProps) => {
                     data={data}
                     xScale={xScale}
                     yScale={yScale}
-                    selected={selected}
-                    onMouseEnter={(i) => {
+                    selected={selectedIds}
+                    onMouseEnter={(item) => {
                         setShowLabel(true)
-                        setHoverIndex(i)
+                        setHoverItem(item)
                     }}
                     onMouseLeave={() => { }}
                 />
@@ -99,18 +97,18 @@ export const ScatterPlot = ({ data, xDomain, yDomain }: IScatterPlotProps) => {
                         >
                             <circle
                                 className={`
-                                    ${hoverIndex !== null && selected[hoverIndex] ? 'selected' : ''}
+                                    ${hoverItem !== null && selectedIds.has(hoverItem.id) ? 'selected' : ''}
                                     ${selection ? 'selection-mode' : ''}
                                 `}
                                 onClick={() => {
-                                    if (hoverIndex !== null) {
-                                        const newSelected = selected.slice(0)
-                                        if (selected[hoverIndex]) {
-                                            newSelected[hoverIndex] = false
+                                    if (hoverItem !== null) {
+                                        if (selectedIds.has(hoverItem.id)) {
+                                            selectedIds.delete(hoverItem.id)
+                                            setSelectedIds(new Map(selectedIds));
                                         } else {
-                                            newSelected[hoverIndex] = true
+                                            selectedIds.set(hoverItem.id, true);
+                                            setSelectedIds(new Map(selectedIds));
                                         }
-                                        setSelected(newSelected);
                                     }
                                 }}
                                 onMouseEnter={() => {

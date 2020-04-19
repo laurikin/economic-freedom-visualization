@@ -2,21 +2,25 @@ import React from 'react';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import './Points.css';
 
-export type IPointsData = {
+export type IPointsDatum = {
     id: string;
     label: string | undefined;
     x: number;
     y: number;
-}[]
+}
+
+export type IPointsData = IPointsDatum[]
 
 export interface IPointsProps {
     data: IPointsData;
-    selected: boolean[];
+    selected: ISelectedIds;
     xScale: d3.ScaleLinear<number, number>;
     yScale: d3.ScaleLinear<number, number>;
-    onMouseEnter: (ind: number) => void;
-    onMouseLeave: (ind: number) => void;
+    onMouseEnter: (item: IPointsDatum) => void;
+    onMouseLeave: (item: IPointsDatum) => void;
 }
+
+export type ISelectedIds = Map<string, true>
 
 export const Points = ({ data, xScale, yScale, selected, onMouseEnter, onMouseLeave }: IPointsProps) => {
 
@@ -30,30 +34,33 @@ export const Points = ({ data, xScale, yScale, selected, onMouseEnter, onMouseLe
                 enter={true}
                 exit={true}
             >
-                {data.map(({ x, y, id }, i) =>
-                    <CSSTransition
-                        key={id}
-                        timeout={300}
-                        classNames="point"
-                    >
-                        <g
+                {data.map((item) => {
+                    const { x, y, id } = item;
+                    return (
+                        <CSSTransition
                             key={id}
-                            className={`point ${selected[i] === true ? 'selected' : ''}`}
-                            transform={`translate(${xScale(x)}, ${yScale(y)})`}
+                            timeout={300}
+                            classNames="point"
                         >
-                            <circle
-                                onMouseEnter={(e) => {
-                                    e.stopPropagation();
-                                    onMouseEnter(i)
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.stopPropagation();
-                                    onMouseLeave(i)
-                                }}
-                            />
-                        </g>
-                    </CSSTransition>
-                )}
+                            <g
+                                key={id}
+                                className={`point ${selected.has(id) ? 'selected' : ''}`}
+                                transform={`translate(${xScale(x)}, ${yScale(y)})`}
+                            >
+                                <circle
+                                    onMouseEnter={(e) => {
+                                        e.stopPropagation();
+                                        onMouseEnter(item)
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.stopPropagation();
+                                        onMouseLeave(item)
+                                    }}
+                                />
+                            </g>
+                        </CSSTransition>
+                    );
+                })}
             </TransitionGroup>
         </g >
     );
