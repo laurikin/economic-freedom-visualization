@@ -1,10 +1,16 @@
 .scatterplot {
     fill: steelblue;
+    transition: fill 100ms;
+}
+
+.scatterplot.selection {
+    fill: lightgray;
 }
 
 .scatterplot .highlight circle {
     r: 10;
     cursor: pointer;
+    fill: steelblue
 }
 
 .scatterplot .highlight.enter circle {

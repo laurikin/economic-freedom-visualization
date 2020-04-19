@@ -1,28 +1,30 @@
-import React, { useEffect, useRef, useMemo, useState } from 'react';
-import * as d3 from 'd3';
-import { CSSTransition } from 'react-transition-group';
-import { Points, IPointsData } from './Points';
-import './ScatterPlot.css';
+import React, { useEffect, useRef, useMemo, useState } from 'react'
+import * as d3 from 'd3'
+import { CSSTransition } from 'react-transition-group'
+import { Points, IPointsData } from './Points'
+import './ScatterPlot.css'
 
-export type IScatterPlotData = IPointsData;
+export type IScatterPlotData = IPointsData
 
 export interface IScatterPlotProps {
-    data: IPointsData;
-    xDomain: [number, number];
-    yDomain: [number, number];
+    data: IPointsData
+    xDomain: [number, number]
+    yDomain: [number, number]
 }
 
 export const ScatterPlot = ({ data, xDomain, yDomain }: IScatterPlotProps) => {
 
-    const initialHoverIndex = null;
-    const [showLabel, setShowLabel] = useState(false);
-    const [hoverIndex, setHoverIndex] = useState(initialHoverIndex as (number | null))
+    const [showLabel, setShowLabel] = useState(false)
+    const [hoverIndex, setHoverIndex] = useState(null as (number | null))
+    const [selected, setSelected] = useState(
+        new Array(data.length).fill(false) as boolean[]
+    )
 
-    const xAxisGroup = useRef(null);
-    const yAxisGroup = useRef(null);
+    const xAxisGroup = useRef(null)
+    const yAxisGroup = useRef(null)
 
-    const margin = 60;
-    const width = 600;
+    const margin = 60
+    const width = 600
     const height = 500
 
     const xScale = useMemo(() => (
@@ -37,29 +39,33 @@ export const ScatterPlot = ({ data, xDomain, yDomain }: IScatterPlotProps) => {
             .range([0, height])
     ), [yDomain])
 
+    const selection = useMemo(() => (
+        selected.some(s => s)
+    ), [selected])
+
     useEffect(() => {
         const xAxis = d3.axisBottom(xScale)
         const xSelection = d3.select(xAxisGroup.current)
         xSelection.selectAll('g').remove()
-        xSelection.append('g').call(xAxis);
+        xSelection.append('g').call(xAxis)
 
         const yAxis = d3.axisLeft(yScale)
         const ySelection = d3.select(yAxisGroup.current)
         ySelection.selectAll('g').remove()
-        ySelection.append('g').call(yAxis);
+        ySelection.append('g').call(yAxis)
 
-    }, [xScale, yScale]);
+    }, [xScale, yScale])
 
     useEffect(() => {
-        setHoverIndex(null);
-    }, [data]);
+        setHoverIndex(null)
+    }, [data])
 
-    const hoverItem = data[hoverIndex ?? -1];
-    const labelLeft = hoverItem ? xScale(hoverItem.x) > width - 130 : false;
+    const hoverItem = data[hoverIndex ?? -1]
+    const labelLeft = hoverItem ? xScale(hoverItem.x) > width - 130 : false
 
     return (
         <svg
-            className="scatterplot"
+            className={`scatterplot ${selection ? 'selection' : ''}`}
             viewBox={`0, 0, ${width + margin * 2}, ${height + margin * 2}`}
         >
             <g
@@ -69,9 +75,10 @@ export const ScatterPlot = ({ data, xDomain, yDomain }: IScatterPlotProps) => {
                     data={data}
                     xScale={xScale}
                     yScale={yScale}
+                    selected={selected}
                     onMouseEnter={(i) => {
-                        setShowLabel(true);
-                        setHoverIndex(i);
+                        setShowLabel(true)
+                        setHoverIndex(i)
                     }}
                     onMouseLeave={() => { }}
                 />
@@ -88,11 +95,22 @@ export const ScatterPlot = ({ data, xDomain, yDomain }: IScatterPlotProps) => {
                             transform={`translate(${xScale(hoverItem?.x ?? 0)}, ${yScale(hoverItem?.y ?? 0)})`}
                         >
                             <circle
+                                onClick={() => {
+                                    if (hoverIndex !== null) {
+                                        const newSelected = selected.slice(0)
+                                        if (selected[hoverIndex]) {
+                                            newSelected[hoverIndex] = false
+                                        } else {
+                                            newSelected[hoverIndex] = true
+                                        }
+                                        setSelected(newSelected);
+                                    }
+                                }}
                                 onMouseEnter={() => {
-                                    setShowLabel(true);
+                                    setShowLabel(true)
                                 }}
                                 onMouseLeave={() => {
-                                    setShowLabel(false);
+                                    setShowLabel(false)
                                 }}
                             />
                         </g>
@@ -134,7 +152,7 @@ export const ScatterPlot = ({ data, xDomain, yDomain }: IScatterPlotProps) => {
                 transform={`translate(${margin - 20}, ${margin})`}
             />
         </svg >
-    );
+    )
 
-};
+}
 

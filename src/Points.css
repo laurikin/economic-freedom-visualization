@@ -2,6 +2,11 @@
     transition: all 300ms ease-in-out;
 }
 
+.point-group .point circle.selected {
+    fill: steelblue;
+    r: 8;
+}
+
 .point-group .point circle {
     r: 7;
 }
@@ -32,3 +37,4 @@
     r: 0;
     transition: all 300ms ease-in-out;
 }
+
