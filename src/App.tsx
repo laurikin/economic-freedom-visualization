@@ -1,17 +1,36 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
+import * as d3 from 'd3'
+
 import { ScatterPlot, IScatterPlotSelection } from './ScatterPlot'
 import { datas, years } from './data'
 import { TrailPlot, ITrailPlotData } from './TrailPlot'
-import * as d3 from 'd3'
+import { Legend } from './Legend'
+
 import './App.css'
 
 const App = () => {
+
+    const margin = 60
+    const width = 600
+    const height = 500
 
     const [dataInd, setDataInd] = useState(0)
     const [selection, setSelection] = useState(new Set() as IScatterPlotSelection)
     const [domain, setDomain] = useState(Array.from(selection) as (string)[]);
     const [freeColors, setFreeColors] = useState(new Set() as Set<number>);
+
+
     const colorScale = d3.scaleOrdinal(d3.schemeCategory10).domain(domain);
+    const data = datas[dataInd % years.length]
+    const xDomain: [number, number] = [0, 10]
+    const yDomain: [number, number] = [10, 0]
+
+
+    const legendItems = useMemo(() => (
+        data
+            .filter(d => selection.has(d.id))
+            .map(d => ({ id: d.id, label: d.label }))
+    ), [selection, data])
 
     useEffect(() => {
         const newDomain = domain.slice(0);
@@ -53,14 +72,6 @@ const App = () => {
         }
     }, [selection, domain, freeColors])
 
-    const margin = 60
-    const width = 600
-    const height = 500
-
-    const data = datas[dataInd % years.length]
-    const xDomain: [number, number] = [0, 10]
-    const yDomain: [number, number] = [10, 0]
-
     interface IRow {
         id: string
         label: string
@@ -93,45 +104,53 @@ const App = () => {
     }, {})
 
     return (
-        <React.Fragment>
-            <div
-                style={{
-                    padding: 40,
-                    maxWidth: 800
-                }}
+        <div
+            id="main-container"
+        >
+            <svg
+                id="chart-container"
+                viewBox={`0, 0, ${width + margin * 2}, ${height + margin * 2}`}
             >
-                <svg
-                    viewBox={`0, 0, ${width + margin * 2}, ${height + margin * 2}`}
-                >
 
-                    <ScatterPlot
-                        xDomain={xDomain}
-                        yDomain={yDomain}
-                        selection={selection}
-                        data={data}
-                        onSelect={(selection) => {
-                            setSelection(selection);
-                        }}
-                    />
+                <ScatterPlot
+                    xDomain={xDomain}
+                    yDomain={yDomain}
+                    selection={selection}
+                    data={data}
+                    onSelect={(selection) => {
+                        setSelection(selection);
+                    }}
+                />
 
-                    <TrailPlot
-                        xDomain={xDomain}
-                        yDomain={yDomain}
-                        data={trailplotData}
-                        selection={selection}
-                        pointIndex={dataInd}
-                        colorScale={colorScale}
-                        onSelect={(selection) => {
-                            setSelection(selection);
-                        }}
-                    />
+                <TrailPlot
+                    xDomain={xDomain}
+                    yDomain={yDomain}
+                    data={trailplotData}
+                    selection={selection}
+                    pointIndex={dataInd}
+                    colorScale={colorScale}
+                    onSelect={(selection) => {
+                        setSelection(selection);
+                    }}
+                />
 
-                </svg>
+            </svg>
+
+            <div
+                id="side-bar"
+            >
+                <Legend
+                    items={legendItems}
+                    colorScale={colorScale}
+                />
+            </div>
+
+            <div
+                id="range-selector"
+            >
+                <div>{years[dataInd]}</div>
 
                 <input
-                    style={{
-                        width: '100%'
-                    }}
                     type="range"
                     value={dataInd}
                     onChange={(e) => {
@@ -144,10 +163,8 @@ const App = () => {
                     max={years.length - 1}
                 />
 
-                <div>{years[dataInd]}</div>
             </div>
-
-        </React.Fragment>
+        </div>
     )
 }
 

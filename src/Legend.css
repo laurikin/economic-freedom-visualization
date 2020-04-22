@@ -1,0 +1,24 @@
+.legend {
+    display: grid;
+    grid-row-gap: 5px;
+}
+
+.legend .item {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: min-content 1fr;
+    align-items: center;
+    grid-column-gap: 6px;
+}
+
+.legend .color-patch {
+    width: 25px;
+    height: 12px;
+}
+
+.legend .label {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

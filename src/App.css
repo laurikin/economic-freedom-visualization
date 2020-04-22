@@ -1,0 +1,48 @@
+#root {
+    display: grid;
+    margin: auto;
+    grid-template-rows: 1fr;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+#main-container {
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 200px;
+    grid-template-rows: 1fr max-content;
+    grid-row-gap: 10px;
+    grid-template-areas:
+        "chart side-bar"
+        "range side-bar"
+    ;
+    padding: 20px;
+    width: 100vw;
+    max-width: 1000px;
+    box-sizing: border-box;
+}
+
+#side-bar {
+    grid-area: side-bar;
+    padding: 20px;
+}
+
+#range-selector {
+    grid-area: range;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: max-content 1fr;
+    grid-column-gap: 20px;
+}
+
+#range-selector input {
+    width: 100%
+}
+
+#chart-container {
+    grid-area: chart;
+    align-self: start;
+    justify-content: end;
+    text-align: left;
+}
