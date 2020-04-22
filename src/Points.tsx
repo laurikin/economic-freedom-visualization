@@ -36,30 +36,34 @@ export const Points = ({ data, xScale, yScale, selected, onMouseEnter, onMouseLe
             >
                 {data.map((item) => {
                     const { x, y, id } = item;
-                    return (
-                        <CSSTransition
-                            key={id}
-                            timeout={300}
-                            classNames="point"
-                        >
-                            <g
+                    if (selected.has(id)) {
+                        return null
+                    } else {
+                        return (
+                            <CSSTransition
                                 key={id}
-                                className={`point ${selected.has(id) ? 'selected' : ''}`}
-                                transform={`translate(${xScale(x)}, ${yScale(y)})`}
+                                timeout={300}
+                                classNames="point"
                             >
-                                <circle
-                                    onMouseEnter={(e) => {
-                                        e.stopPropagation();
-                                        onMouseEnter(item)
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.stopPropagation();
-                                        onMouseLeave(item)
-                                    }}
-                                />
-                            </g>
-                        </CSSTransition>
-                    );
+                                <g
+                                    key={id}
+                                    className="point"
+                                    transform={`translate(${xScale(x)}, ${yScale(y)})`}
+                                >
+                                    <circle
+                                        onMouseEnter={(e) => {
+                                            e.stopPropagation();
+                                            onMouseEnter(item)
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.stopPropagation();
+                                            onMouseLeave(item)
+                                        }}
+                                    />
+                                </g>
+                            </CSSTransition>
+                        );
+                    }
                 })}
             </TransitionGroup>
         </g >

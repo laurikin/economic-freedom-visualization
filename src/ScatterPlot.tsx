@@ -12,17 +12,15 @@ export interface IScatterPlotProps {
     data: IPointsData
     xDomain: [number, number]
     yDomain: [number, number]
+    selection: IScatterPlotSelection
     onSelect: (selection: IScatterPlotSelection) => void
 }
 
 
-export const ScatterPlot = ({ data, xDomain, yDomain, onSelect }: IScatterPlotProps) => {
+export const ScatterPlot = ({ data, xDomain, yDomain, onSelect, selection }: IScatterPlotProps) => {
 
     const [showLabel, setShowLabel] = useState(false)
     const [hoverItem, setHoverItem] = useState(null as (IPointsDatum | null))
-
-    const initialSelectedIds: ISelectedIds = new Set();
-    const [selectedIds, setSelectedIds] = useState(initialSelectedIds as IScatterPlotSelection);
 
     const xAxisGroup = useRef(null)
     const yAxisGroup = useRef(null)
@@ -42,8 +40,6 @@ export const ScatterPlot = ({ data, xDomain, yDomain, onSelect }: IScatterPlotPr
             .domain(yDomain)
             .range([0, height])
     ), [yDomain])
-
-    const selection = selectedIds.size > 0
 
     // use d3 to render the axes after mounting the component
     useEffect(() => {
@@ -69,7 +65,7 @@ export const ScatterPlot = ({ data, xDomain, yDomain, onSelect }: IScatterPlotPr
 
     return (
         <svg
-            className={`scatterplot ${selection ? 'selection' : ''}`}
+            className={`scatterplot ${selection.size > 0 ? 'selection' : ''}`}
             viewBox={`0, 0, ${width + margin * 2}, ${height + margin * 2}`}
         >
             <g
@@ -79,7 +75,7 @@ export const ScatterPlot = ({ data, xDomain, yDomain, onSelect }: IScatterPlotPr
                     data={data}
                     xScale={xScale}
                     yScale={yScale}
-                    selected={selectedIds}
+                    selected={selection}
                     onMouseEnter={(item) => {
                         setShowLabel(true)
                         setHoverItem(item)
@@ -100,19 +96,18 @@ export const ScatterPlot = ({ data, xDomain, yDomain, onSelect }: IScatterPlotPr
                         >
                             <circle
                                 className={`
-                                    ${hoverItem !== null && selectedIds.has(hoverItem.id) ? 'selected' : ''}
-                                    ${selection ? 'selection-mode' : ''}
+                                    ${hoverItem !== null && selection.has(hoverItem.id) ? 'selected' : ''}
+                                    ${selection.size > 0 ? 'selection-mode' : ''}
                                 `}
                                 onClick={() => {
                                     if (hoverItem !== null) {
-                                        if (selectedIds.has(hoverItem.id)) {
-                                            selectedIds.delete(hoverItem.id)
-                                            setSelectedIds(new Set(selectedIds));
-                                            onSelect(selectedIds);
+                                        const newSelection: Set<string> = new Set(selection)
+                                        if (selection.has(hoverItem.id)) {
+                                            newSelection.delete(hoverItem.id)
+                                            onSelect(newSelection);
                                         } else {
-                                            selectedIds.add(hoverItem.id);
-                                            setSelectedIds(new Set(selectedIds));
-                                            onSelect(selectedIds);
+                                            newSelection.add(hoverItem.id);
+                                            onSelect(newSelection);
                                         }
 
 

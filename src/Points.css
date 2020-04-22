@@ -6,10 +6,6 @@
     r: 7;
 }
 
-.point-group .point.selected circle {
-    fill: lightblue;
-}
-
 .point-group .point-appear circle {
     r: 0;
 }

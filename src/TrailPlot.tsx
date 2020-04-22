@@ -23,9 +23,11 @@ export interface ITrailPlotProps {
     xDomain: [number, number]
     yDomain: [number, number]
     selection: Selection
+    pointIndex: number
+    onSelect: (selection: Selection) => void
 }
 
-export const TrailPlot = ({ data, xDomain, yDomain, selection }: ITrailPlotProps) => {
+export const TrailPlot = ({ data, xDomain, yDomain, selection, pointIndex, onSelect }: ITrailPlotProps) => {
     const margin = 60
     const width = 600
     const height = 500
@@ -38,6 +40,7 @@ export const TrailPlot = ({ data, xDomain, yDomain, selection }: ITrailPlotProps
         const newDomain = domain.slice(0);
         const newFreeColors = new Set(freeColors);
         let update = false;
+        console.log('calculating');
 
         // selection removed add id slot to free colors
         domain.forEach((id, i) => {
@@ -99,6 +102,7 @@ export const TrailPlot = ({ data, xDomain, yDomain, selection }: ITrailPlotProps
                     const scaledPoints = points.map(({ x, y }) =>
                         [xScale(x), yScale(y)] as [number, number]
                     )
+                    const highlightPoint = scaledPoints[pointIndex];
                     return (
                         <g
                             key={id}
@@ -107,24 +111,29 @@ export const TrailPlot = ({ data, xDomain, yDomain, selection }: ITrailPlotProps
                                 points={scaledPoints}
                                 color={colorScale(id)}
                             />
+
+                            <g
+                                className="highlight-point"
+                                transform={`translate(${highlightPoint[0]}, ${highlightPoint[1]})`}
+                            >
+                                <circle
+                                    stroke="black"
+                                    fill={colorScale(id)}
+                                    strokeWidth="2"
+                                    r="8"
+                                    onClick={(e) => {
+                                        e.preventDefault()
+                                        e.stopPropagation()
+                                        const newSelection = new Set(selection);
+                                        newSelection.delete(id)
+                                        onSelect(newSelection)
+                                    }}
+                                />
+                            </g>
                         </g>
                     )
                 })}
             </g>
-        </svg>
+        </svg >
     );
 }
-
-/* {highlightPoint &&
- *     <g
- *         className="highlight-point"
- *         transform={`translate(${xScale(highlightPoint.x)}, ${yScale(highlightPoint.y)})`}
- *     >
- *         <circle
- *             fill="none"
- *             stroke="blue"
- *             strokeWidth="2"
- *             r="8"
- *         />
- *     </g>
- * } */

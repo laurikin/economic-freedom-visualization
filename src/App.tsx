@@ -60,17 +60,22 @@ const App = () => {
                     viewBox={`0, 0, ${width + margin * 2}, ${height + margin * 2}`}
                 >
 
+                    <ScatterPlot
+                        xDomain={xDomain}
+                        yDomain={yDomain}
+                        selection={selection}
+                        data={data}
+                        onSelect={(selection) => {
+                            setSelection(selection);
+                        }}
+                    />
+
                     <TrailPlot
                         xDomain={xDomain}
                         yDomain={yDomain}
                         data={trailplotData}
                         selection={selection}
-                    />
-
-                    <ScatterPlot
-                        xDomain={xDomain}
-                        yDomain={yDomain}
-                        data={data}
+                        pointIndex={dataInd}
                         onSelect={(selection) => {
                             setSelection(selection);
                         }}
