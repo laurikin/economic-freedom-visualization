@@ -5,6 +5,7 @@ import { ScatterPlot, IScatterPlotSelection } from './ScatterPlot'
 import { datas, years } from './data'
 import { TrailPlot, ITrailPlotData } from './TrailPlot'
 import { Legend } from './Legend'
+import Select from 'react-select'
 
 import './App.css'
 
@@ -71,6 +72,12 @@ const App = () => {
             setFreeColors(newFreeColors);
         }
     }, [selection, domain, freeColors])
+
+    const options = useMemo(() => (
+        data
+            .filter(d => !selection.has(d.id))
+            .map(d => ({ value: d.id, label: d.label }))
+    ), [data, selection]);
 
     interface IRow {
         id: string
@@ -139,6 +146,23 @@ const App = () => {
             <div
                 id="side-bar"
             >
+                <Select
+                    options={options}
+                    hideSelectedOptions={true}
+                    value={null}
+                    placeholder="Select country"
+                    isMulti={false}
+                    onChange={(choice: unknown, action) => {
+                        if (action.action === 'select-option') {
+                            const myChoice = choice as { value: string, choice: string };
+                            if (choice) {
+                                const newSelection = new Set(selection)
+                                newSelection.add(myChoice.value)
+                                setSelection(newSelection)
+                            }
+                        }
+                    }}
+                />
                 <Legend
                     items={legendItems}
                     colorScale={colorScale}
