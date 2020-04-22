@@ -26,6 +26,9 @@
 #side-bar {
     grid-area: side-bar;
     padding: 20px;
+    display: grid;
+    grid-auto-rows: max-content;
+    grid-row-gap: 20px;
 }
 
 #range-selector {

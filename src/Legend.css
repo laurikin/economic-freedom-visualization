@@ -1,12 +1,13 @@
 .legend {
     display: grid;
     grid-row-gap: 5px;
+    color: #333;
 }
 
 .legend .item {
     display: grid;
     grid-auto-flow: column;
-    grid-template-columns: min-content 1fr;
+    grid-template-columns: min-content 1fr max-content;
     align-items: center;
     grid-column-gap: 6px;
 }
@@ -21,4 +22,15 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.legend .x-button {
+    color: #666;
+    cursor: pointer;
+    font-weight: 700;
+    padding-right: 3px;
+}
+
+.legend .x-button:hover {
+    color: #222
 }

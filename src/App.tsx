@@ -149,6 +149,7 @@ const App = () => {
                 <Select
                     options={options}
                     hideSelectedOptions={true}
+                    blurInputOnSelect={false}
                     value={null}
                     placeholder="Select country"
                     isMulti={false}
@@ -166,6 +167,11 @@ const App = () => {
                 <Legend
                     items={legendItems}
                     colorScale={colorScale}
+                    onItemRemove={(id) => {
+                        const newSelection = new Set(selection)
+                        newSelection.delete(id)
+                        setSelection(newSelection)
+                    }}
                 />
             </div>
 
