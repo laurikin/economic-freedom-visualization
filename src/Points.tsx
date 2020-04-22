@@ -20,7 +20,7 @@ export interface IPointsProps {
     onMouseLeave: (item: IPointsDatum) => void;
 }
 
-export type ISelectedIds = Map<string, true>
+export type ISelectedIds = Set<string>
 
 export const Points = ({ data, xScale, yScale, selected, onMouseEnter, onMouseLeave }: IPointsProps) => {
 

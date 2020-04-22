@@ -3,7 +3,7 @@ import * as d3 from 'd3'
 import './TrailPlot.css'
 import { Trail } from './Trail'
 
-export type Selection = Map<string, true>
+export type Selection = Set<string>
 
 export interface ITrailPlotDatum {
     id: string
@@ -30,6 +30,8 @@ export const TrailPlot = ({ data, xDomain, yDomain, selection }: ITrailPlotProps
     const width = 600
     const height = 500
 
+    const colorScale = d3.scaleOrdinal(d3.schemeCategory10).domain(Array.from(selection));
+
     const xScale = useMemo(() => (
         d3.scaleLinear()
             .domain(xDomain)
@@ -50,24 +52,21 @@ export const TrailPlot = ({ data, xDomain, yDomain, selection }: ITrailPlotProps
             <g
                 transform={`translate(${margin} ${margin})`}
             >
-                {Object.keys(data).map((key) => {
-                    const { id, data: points } = data[key];
-                    if (!selection.has(id)) {
-                        return null;
-                    } else {
-                        const scaledPoints = points.map(({ x, y }) =>
-                            [xScale(x), yScale(y)] as [number, number]
-                        )
-                        return (
-                            <g
-                                key={id}
-                            >
-                                <Trail
-                                    points={scaledPoints}
-                                />
-                            </g>
-                        )
-                    }
+                {Array.from(selection).map((id) => {
+                    const { data: points } = data[id];
+                    const scaledPoints = points.map(({ x, y }) =>
+                        [xScale(x), yScale(y)] as [number, number]
+                    )
+                    return (
+                        <g
+                            key={id}
+                        >
+                            <Trail
+                                points={scaledPoints}
+                                color={colorScale(id)}
+                            />
+                        </g>
+                    )
                 })}
             </g>
         </svg>

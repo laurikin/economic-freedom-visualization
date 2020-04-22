@@ -21,8 +21,8 @@ export const ScatterPlot = ({ data, xDomain, yDomain, onSelect }: IScatterPlotPr
     const [showLabel, setShowLabel] = useState(false)
     const [hoverItem, setHoverItem] = useState(null as (IPointsDatum | null))
 
-    const initialSelectedIds: ISelectedIds = new Map();
-    const [selectedIds, setSelectedIds] = useState(initialSelectedIds);
+    const initialSelectedIds: ISelectedIds = new Set();
+    const [selectedIds, setSelectedIds] = useState(initialSelectedIds as IScatterPlotSelection);
 
     const xAxisGroup = useRef(null)
     const yAxisGroup = useRef(null)
@@ -107,11 +107,11 @@ export const ScatterPlot = ({ data, xDomain, yDomain, onSelect }: IScatterPlotPr
                                     if (hoverItem !== null) {
                                         if (selectedIds.has(hoverItem.id)) {
                                             selectedIds.delete(hoverItem.id)
-                                            setSelectedIds(new Map(selectedIds));
+                                            setSelectedIds(new Set(selectedIds));
                                             onSelect(selectedIds);
                                         } else {
-                                            selectedIds.set(hoverItem.id, true);
-                                            setSelectedIds(new Map(selectedIds));
+                                            selectedIds.add(hoverItem.id);
+                                            setSelectedIds(new Set(selectedIds));
                                             onSelect(selectedIds);
                                         }
 

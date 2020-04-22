@@ -7,7 +7,7 @@ import './App.css'
 const App = () => {
 
     const [dataInd, setDataInd] = useState(0)
-    const [selection, setSelection] = useState(new Map() as IScatterPlotSelection)
+    const [selection, setSelection] = useState(new Set() as IScatterPlotSelection)
 
     const margin = 60
     const width = 600

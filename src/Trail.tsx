@@ -2,10 +2,11 @@ import React, { useState } from 'react'
 import * as d3 from 'd3'
 
 export interface ITrailProps {
-    points: [number, number][]
+    points: [number, number][],
+    color: string
 }
 
-export const Trail = ({ points }: ITrailProps) => {
+export const Trail = ({ points, color }: ITrailProps) => {
 
 
     const [go, setGo] = useState(false as boolean)
@@ -33,7 +34,7 @@ export const Trail = ({ points }: ITrailProps) => {
                                     transitionDelay: `${(i - 1) / 10}s`
                                 }}
                                 fill="none"
-                                stroke="black"
+                                stroke={color}
                                 strokeWidth={(i + 1) / 2}
                                 d={go ?
                                     d3.line()([
