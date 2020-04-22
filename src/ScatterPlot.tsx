@@ -6,14 +6,17 @@ import './ScatterPlot.css'
 
 export type IScatterPlotData = IPointsData
 
+export type IScatterPlotSelection = ISelectedIds
+
 export interface IScatterPlotProps {
     data: IPointsData
     xDomain: [number, number]
     yDomain: [number, number]
+    onSelect: (selection: IScatterPlotSelection) => void
 }
 
 
-export const ScatterPlot = ({ data, xDomain, yDomain }: IScatterPlotProps) => {
+export const ScatterPlot = ({ data, xDomain, yDomain, onSelect }: IScatterPlotProps) => {
 
     const [showLabel, setShowLabel] = useState(false)
     const [hoverItem, setHoverItem] = useState(null as (IPointsDatum | null))
@@ -105,10 +108,14 @@ export const ScatterPlot = ({ data, xDomain, yDomain }: IScatterPlotProps) => {
                                         if (selectedIds.has(hoverItem.id)) {
                                             selectedIds.delete(hoverItem.id)
                                             setSelectedIds(new Map(selectedIds));
+                                            onSelect(selectedIds);
                                         } else {
                                             selectedIds.set(hoverItem.id, true);
                                             setSelectedIds(new Map(selectedIds));
+                                            onSelect(selectedIds);
                                         }
+
+
                                     }
                                 }}
                                 onMouseEnter={() => {

@@ -1,6 +1,9 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import * as d3 from 'd3'
 import './TrailPlot.css'
+import { Trail } from './Trail'
+
+export type Selection = Map<string, true>
 
 export interface ITrailPlotDatum {
     id: string
@@ -17,22 +20,15 @@ export interface ITrailPlotData {
 
 export interface ITrailPlotProps {
     data: ITrailPlotData
-    pointIndex: number
     xDomain: [number, number]
     yDomain: [number, number]
+    selection: Selection
 }
 
-export const TrailPlot = ({ data, xDomain, yDomain, pointIndex }: ITrailPlotProps) => {
+export const TrailPlot = ({ data, xDomain, yDomain, selection }: ITrailPlotProps) => {
     const margin = 60
     const width = 600
     const height = 500
-
-    const [go, setGo] = useState(false as boolean)
-
-    setImmediate(() => {
-        // trigger the line animation on once component is mounted
-        setGo(true)
-    })
 
     const xScale = useMemo(() => (
         d3.scaleLinear()
@@ -56,62 +52,38 @@ export const TrailPlot = ({ data, xDomain, yDomain, pointIndex }: ITrailPlotProp
             >
                 {Object.keys(data).map((key) => {
                     const { id, data: points } = data[key];
-                    const highlightPoint = points[pointIndex]
-                    return (
-                        <g
-                            key={id}
-                        >
-                            {highlightPoint &&
-                                <g
-                                    className="highlight-point"
-                                    transform={`translate(${xScale(highlightPoint.x)}, ${yScale(highlightPoint.y)})`}
-                                >
-                                    <circle
-                                        fill="none"
-                                        stroke="blue"
-                                        strokeWidth="2"
-                                        r="8"
-                                    />
-                                </g>
-                            }
-                            {points.map((point, i) => {
-                                if (i < 1) {
-                                    return null;
-                                } else {
-                                    const lastPoint = points[i - 1]
-                                    const point1: [number, number] = [xScale(lastPoint.x), yScale(lastPoint.y)]
-                                    const point2: [number, number] = [xScale(point.x), yScale(point.y)]
-                                    return (
-                                        <g
-                                            key={`${id}|${i}`}
-                                        >
-                                            <path
-                                                style={{
-                                                    transition: 'all 0.5s linear',
-                                                    transitionDelay: `${(i - 1) / 2}s`
-                                                }}
-                                                fill="none"
-                                                stroke="black"
-                                                strokeWidth={(i + 1) / 2}
-                                                d={go ?
-                                                    d3.line()([
-                                                        point1,
-                                                        point2
-                                                    ]) ?? '' :
-                                                    d3.line()([
-                                                        point1,
-                                                        point1
-                                                    ]) ?? ''
-                                                }
-                                            />
-                                        </g>
-                                    )
-                                }
-                            })}
-                        </g>
-                    )
+                    if (!selection.has(id)) {
+                        return null;
+                    } else {
+                        const scaledPoints = points.map(({ x, y }) =>
+                            [xScale(x), yScale(y)] as [number, number]
+                        )
+                        return (
+                            <g
+                                key={id}
+                            >
+                                <Trail
+                                    points={scaledPoints}
+                                />
+                            </g>
+                        )
+                    }
                 })}
             </g>
         </svg>
     );
 }
+
+/* {highlightPoint &&
+ *     <g
+ *         className="highlight-point"
+ *         transform={`translate(${xScale(highlightPoint.x)}, ${yScale(highlightPoint.y)})`}
+ *     >
+ *         <circle
+ *             fill="none"
+ *             stroke="blue"
+ *             strokeWidth="2"
+ *             r="8"
+ *         />
+ *     </g>
+ * } */

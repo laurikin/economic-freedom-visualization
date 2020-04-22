@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ScatterPlot } from './ScatterPlot'
+import { ScatterPlot, IScatterPlotSelection } from './ScatterPlot'
 import { datas, years } from './data'
 import { TrailPlot, ITrailPlotData } from './TrailPlot'
 import './App.css'
@@ -7,6 +7,7 @@ import './App.css'
 const App = () => {
 
     const [dataInd, setDataInd] = useState(0)
+    const [selection, setSelection] = useState(new Map() as IScatterPlotSelection)
 
     const margin = 60
     const width = 600
@@ -62,14 +63,17 @@ const App = () => {
                     <TrailPlot
                         xDomain={xDomain}
                         yDomain={yDomain}
-                        pointIndex={dataInd}
                         data={trailplotData}
+                        selection={selection}
                     />
 
                     <ScatterPlot
                         xDomain={xDomain}
                         yDomain={yDomain}
                         data={data}
+                        onSelect={(selection) => {
+                            setSelection(selection);
+                        }}
                     />
 
                 </svg>
