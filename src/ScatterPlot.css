@@ -84,3 +84,8 @@
     border-radius: 2px;
     background: white;
 }
+
+.axis-label {
+    fill: #333;
+    text-anchor: middle;
+}

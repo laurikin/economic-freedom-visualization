@@ -14,20 +14,34 @@ export interface IScatterPlotProps {
     yDomain: [number, number]
     selection: IScatterPlotSelection
     onSelect: (selection: IScatterPlotSelection) => void
+    marginLeft: number
+    marginRight: number
+    marginBottom: number
+    marginTop: number
+    width: number
+    height: number
 }
 
 
-export const ScatterPlot = ({ data, xDomain, yDomain, onSelect, selection }: IScatterPlotProps) => {
+export const ScatterPlot = ({
+    data,
+    xDomain,
+    yDomain,
+    onSelect,
+    selection,
+    marginLeft,
+    marginRight,
+    marginTop,
+    marginBottom,
+    width,
+    height
+}: IScatterPlotProps) => {
 
     const [showLabel, setShowLabel] = useState(false)
     const [hoverItem, setHoverItem] = useState(null as (IPointsDatum | null))
 
     const xAxisGroup = useRef(null)
     const yAxisGroup = useRef(null)
-
-    const margin = 60
-    const width = 600
-    const height = 500
 
     const xScale = useMemo(() => (
         d3.scaleLinear()
@@ -66,10 +80,10 @@ export const ScatterPlot = ({ data, xDomain, yDomain, onSelect, selection }: ISc
     return (
         <svg
             className={`scatterplot ${selection.size > 0 ? 'selection' : ''}`}
-            viewBox={`0, 0, ${width + margin * 2}, ${height + margin * 2}`}
+            viewBox={`0, 0, ${width + marginLeft + marginRight}, ${height + marginTop + marginBottom}`}
         >
             <g
-                transform={`translate(${margin} ${margin})`}
+                transform={`translate(${marginLeft} ${marginTop})`}
             >
                 <Points
                     data={data}
@@ -153,11 +167,23 @@ export const ScatterPlot = ({ data, xDomain, yDomain, onSelect, selection }: ISc
             </g>
             <g
                 ref={xAxisGroup}
-                transform={`translate(${margin}, ${height + margin + 20})`}
-            />
+                transform={`translate(${marginLeft}, ${height + marginTop + 10})`}
+            >
+                <text
+                    className="axis-label"
+                    transform={`translate(${width / 2},40)`}
+                >Economic Freedom</text>
+            </g>
             <g ref={yAxisGroup}
-                transform={`translate(${margin - 20}, ${margin})`}
-            />
+                transform={`translate(${marginLeft - 10}, ${marginTop})`}
+            >
+                <text
+                    className="axis-label"
+                    y={-50}
+                    x={- height / 2}
+                    transform={`rotate(-90)`}
+                >GDP / Capita</text>
+            </g>
         </svg >
     )
 

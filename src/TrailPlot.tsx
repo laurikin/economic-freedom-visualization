@@ -26,6 +26,12 @@ export interface ITrailPlotProps {
     pointIndex: number
     onSelect: (selection: Selection) => void
     colorScale: d3.ScaleOrdinal<string, string>
+    marginLeft: number
+    marginRight: number
+    marginBottom: number
+    marginTop: number
+    height: number
+    width: number
 }
 
 export const TrailPlot = ({
@@ -35,12 +41,14 @@ export const TrailPlot = ({
     selection,
     pointIndex,
     onSelect,
-    colorScale
+    colorScale,
+    marginLeft,
+    marginRight,
+    marginBottom,
+    marginTop,
+    width,
+    height
 }: ITrailPlotProps) => {
-    const margin = 60
-    const width = 600
-    const height = 500
-
 
     const xScale = useMemo(() => (
         d3.scaleLinear()
@@ -57,10 +65,10 @@ export const TrailPlot = ({
     return (
         <svg
             className={`trailplot`}
-            viewBox={`0, 0, ${width + margin * 2}, ${height + margin * 2}`}
+            viewBox={`0, 0, ${width + marginLeft + marginRight}, ${height + marginTop + marginBottom}`}
         >
             <g
-                transform={`translate(${margin} ${margin})`}
+                transform={`translate(${marginLeft} ${marginTop})`}
             >
                 {Array.from(selection).map((id) => {
                     const { data: points } = data[id];

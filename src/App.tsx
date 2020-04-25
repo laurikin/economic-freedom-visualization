@@ -9,20 +9,21 @@ import Select from 'react-select'
 import './App.css'
 
 const App = ({ data: inputData }: { data: IData }) => {
+    const marginTop = 20
+    const marginBottom = 80
+    const marginLeft = 80
+    const marginRight = 80
+    const width = 600
+    const height = 500
 
     const { xDomain, yDomain, trailplotData } = inputData
     const datas = inputData.data
     const years = inputData.years
     const countries = inputData.countries
-    const margin = 60
-    const width = 600
-    const height = 500
-
     const [dataInd, setDataInd] = useState(0)
     const [selection, setSelection] = useState(new Set() as IScatterPlotSelection)
     const [domain, setDomain] = useState(Array.from(selection) as (string)[]);
     const [freeColors, setFreeColors] = useState(new Set() as Set<number>);
-
 
     const colorScale = d3.scaleOrdinal(d3.schemeCategory10).domain(domain);
     const data = datas[dataInd % years.length]
@@ -83,34 +84,49 @@ const App = ({ data: inputData }: { data: IData }) => {
         <div
             id="main-container"
         >
-            <svg
+            <div
                 id="chart-container"
-                viewBox={`0, 0, ${width + margin * 2}, ${height + margin * 2}`}
             >
+                <svg
+                    viewBox={`0, 0, ${width + marginLeft + marginRight}, ${height + marginTop + marginBottom}`}
+                >
 
-                <ScatterPlot
-                    xDomain={xDomain}
-                    yDomain={yDomain}
-                    selection={selection}
-                    data={data}
-                    onSelect={(selection) => {
-                        setSelection(selection);
-                    }}
-                />
+                    <ScatterPlot
+                        xDomain={xDomain}
+                        yDomain={yDomain}
+                        marginLeft={marginLeft}
+                        marginRight={marginRight}
+                        marginTop={marginTop}
+                        marginBottom={marginBottom}
+                        width={width}
+                        height={height}
+                        selection={selection}
+                        data={data}
+                        onSelect={(selection) => {
+                            setSelection(selection);
+                        }}
+                    />
 
-                <TrailPlot
-                    xDomain={xDomain}
-                    yDomain={yDomain}
-                    data={trailplotData}
-                    selection={selection}
-                    pointIndex={dataInd}
-                    colorScale={colorScale}
-                    onSelect={(selection) => {
-                        setSelection(selection);
-                    }}
-                />
+                    <TrailPlot
+                        xDomain={xDomain}
+                        yDomain={yDomain}
+                        marginLeft={marginLeft}
+                        marginRight={marginRight}
+                        marginTop={marginTop}
+                        marginBottom={marginBottom}
+                        width={width}
+                        height={height}
+                        data={trailplotData}
+                        selection={selection}
+                        pointIndex={dataInd}
+                        colorScale={colorScale}
+                        onSelect={(selection) => {
+                            setSelection(selection);
+                        }}
+                    />
 
-            </svg>
+                </svg>
+            </div>
 
             <div
                 id="side-bar"

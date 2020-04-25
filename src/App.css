@@ -16,7 +16,6 @@
     grid-template-areas:
         "chart side-bar"
     ;
-    padding: 20px;
     width: 100vw;
     max-width: 1200px;
     box-sizing: border-box;
