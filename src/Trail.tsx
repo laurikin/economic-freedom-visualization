@@ -35,7 +35,8 @@ export const Trail = ({ points, color }: ITrailProps) => {
                                 }}
                                 fill="none"
                                 stroke={color}
-                                strokeWidth={(i + 1) / 2}
+                                strokeWidth={go ? (i + 1) / 2 : 0}
+                                strokeLinecap="round"
                                 d={go ?
                                     d3.line()([
                                         lastPoint,
