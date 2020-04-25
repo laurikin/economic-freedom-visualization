@@ -8,7 +8,7 @@
 }
 
 .scatterplot .highlight circle {
-    r: 10;
+    r: 5;
     cursor: pointer;
     fill: steelblue;
     transition: fill 300ms;
@@ -19,26 +19,26 @@
 }
 
 .scatterplot .highlight circle.selected {
-    r: 10;
+    r: 5;
     cursor: pointer;
     fill: lightblue;
 }
 
 .scatterplot .highlight.enter circle {
-    r: 7;
+    r: 3;
 }
 
 .scatterplot .highlight.enter-active circle {
-    r: 10;
+    r: 5;
     transition: r 300ms ease-in-out;
 }
 
 .scatterplot .highlight.exit circle {
-    r: 10;
+    r: 5;
 }
 
 .scatterplot .highlight.exit-active circle {
-    r: 7;
+    r: 3;
     transition: r 300ms ease-in-out;
 }
 
@@ -88,4 +88,5 @@
 .axis-label {
     fill: #333;
     text-anchor: middle;
+    font-size: 12px;
 }

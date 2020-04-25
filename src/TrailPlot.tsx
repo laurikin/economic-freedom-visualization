@@ -100,7 +100,6 @@ export const TrailPlot = ({
                                         stroke="black"
                                         fill={colorScale(id)}
                                         strokeWidth="2"
-                                        r="8"
                                         onClick={(e) => {
                                             e.preventDefault()
                                             e.stopPropagation()

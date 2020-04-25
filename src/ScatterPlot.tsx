@@ -182,7 +182,7 @@ export const ScatterPlot = ({
                     y={-50}
                     x={- height / 2}
                     transform={`rotate(-90)`}
-                >GDP / Capita</text>
+                >GDP per capita (2010 US$)</text>
             </g>
         </svg >
     )
