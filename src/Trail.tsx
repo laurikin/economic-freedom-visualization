@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import * as d3 from 'd3'
+import React from 'react'
+import { TrailSegment } from './TrailSegment'
 
 export interface ITrailProps {
     points: ([number, number] | null)[],
@@ -7,14 +7,6 @@ export interface ITrailProps {
 }
 
 export const Trail = ({ points, color }: ITrailProps) => {
-
-
-    const [go, setGo] = useState(false as boolean)
-
-    setImmediate(() => {
-        // trigger the line animation on once component is mounted
-        setGo(true)
-    })
 
 
     return (
@@ -30,26 +22,13 @@ export const Trail = ({ points, color }: ITrailProps) => {
                         <g
                             key={i}
                         >
-                            <path
-                                style={{
-                                    transition: `all ${1 / 10}s linear`,
-                                    transitionDelay: `${(i - 1) / 10}s`,
-                                    opacity: Math.max(i / points.length, 0.4)
-                                }}
-                                fill="none"
-                                stroke={color}
-                                strokeWidth={go ? (i + 1) / 4 : 0}
-                                strokeLinecap="round"
-                                d={go ?
-                                    d3.line()([
-                                        lastPoint,
-                                        point
-                                    ]) ?? '' :
-                                    d3.line()([
-                                        lastPoint,
-                                        lastPoint
-                                    ]) ?? ''
-                                }
+                            <TrailSegment
+                                color={color}
+                                strokeWidth={(i + 1) / 4}
+                                opacity={Math.max(i / points.length, 0.4)}
+                                startPoint={lastPoint}
+                                endPoint={point}
+                                index={i}
                             />
                         </g>
                     )

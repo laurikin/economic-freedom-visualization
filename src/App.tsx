@@ -40,8 +40,10 @@ const App = ({ data: inputData }: { data: IData }) => {
             .map(c => ({ id: c, label: c }))
     ), [countries, selection])
 
+    const [zoomToSelection, setZoomToSelection] = useState(false)
+
     const [xDomain, yDomain] = useMemo(() => {
-        if (selection.size === 0) {
+        if (!zoomToSelection || selection.size === 0) {
             return [initialXDomain, initialYDomain]
         } else {
             const values = Array.from(selection).reduce((acc: { x: number, y: number }[], id) => {
@@ -56,7 +58,7 @@ const App = ({ data: inputData }: { data: IData }) => {
             const yDomain: [number, number] = [d3.max(values, v => v.y) ?? initialYDomain[1], 0]
             return [xDomain, yDomain]
         }
-    }, [trailplotData, selection, initialXDomain, initialYDomain])
+    }, [trailplotData, selection, initialXDomain, initialYDomain, zoomToSelection])
 
     useEffect(() => {
         const newDomain = domain.slice(0);
@@ -167,6 +169,24 @@ const App = ({ data: inputData }: { data: IData }) => {
                         max={years.length - 1}
                     />
 
+                </div>
+
+                <div
+                    className="options"
+                >
+                    <div
+                        className="option"
+                    >
+                        <input
+                            name="zoom"
+                            type="checkbox"
+                            checked={zoomToSelection}
+                            onChange={(e) => {
+                                setZoomToSelection(e.target.checked)
+                            }}
+                        />
+                        <label htmlFor="zoom">Zoom to Selection</label>
+                    </div>
                 </div>
 
                 <Select
