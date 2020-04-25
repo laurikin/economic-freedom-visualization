@@ -14,14 +14,16 @@ const transitionTime = 1000 / 10
 
 export const TrailSegment = ({ startPoint, endPoint, color, strokeWidth, opacity, index }: ITrailSegmentProps) => {
 
-    const transitionDelay = (index - 1) / 10 * 1000
+    const transitionDelay = (index - 1) * transitionTime
 
     const [state, setState] = useState('init' as 'init' | 'animate' | 'done')
 
-    setImmediate(() => {
-        // trigger the line animation on once component is mounted
-        setState('animate')
-    })
+    useEffect(() => {
+        setImmediate(() => {
+            // trigger the line animation on once component is mounted
+            setState('animate')
+        })
+    }, [])
 
     useEffect(() => {
         const timeout = setTimeout(() => {
@@ -30,18 +32,25 @@ export const TrailSegment = ({ startPoint, endPoint, color, strokeWidth, opacity
         }, transitionDelay + transitionTime)
 
         return () => clearTimeout(timeout)
-    }, [transitionDelay, transitionTime])
+    }, [transitionDelay])
 
+    /* useEffect(() => {
+     *     console.log('changed')
+     * }, [startPoint, endPoint])
+     */
+    /* transition: state === 'done' ? 'none' : `all ${transitionTime}ms linear`, */
     return (
         <path
             style={{
-                transition: state === 'done' ? 'none' : `all ${transitionTime}ms linear`,
+                transitionProperty: state === 'done' ? 'none' : 'all',
+                transitionDuration: `${transitionTime}ms`,
+                transitionTimingFunction: 'linear',
                 transitionDelay: `${transitionDelay}ms`,
                 opacity
             }}
             fill="none"
             stroke={color}
-            strokeWidth={state === 'animate' ? strokeWidth : 0}
+            strokeWidth={state === 'init' ? 0 : strokeWidth}
             strokeLinecap="round"
             d={state !== 'init' ?
                 d3.line()([
