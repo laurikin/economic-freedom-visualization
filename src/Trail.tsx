@@ -31,11 +31,12 @@ export const Trail = ({ points, color }: ITrailProps) => {
                             <path
                                 style={{
                                     transition: `all ${1 / 10}s linear`,
-                                    transitionDelay: `${(i - 1) / 10}s`
+                                    transitionDelay: `${(i - 1) / 10}s`,
+                                    opacity: Math.max(i / points.length, 0.4)
                                 }}
                                 fill="none"
                                 stroke={color}
-                                strokeWidth={go ? (i + 1) / 2 : 0}
+                                strokeWidth={go ? (i + 1) / 4 : 0}
                                 strokeLinecap="round"
                                 d={go ?
                                     d3.line()([
