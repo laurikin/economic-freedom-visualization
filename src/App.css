@@ -11,15 +11,14 @@
     margin: auto;
     display: grid;
     grid-template-columns: 1fr 300px;
-    grid-template-rows: 1fr max-content;
+    grid-template-rows: 1fr;
     grid-row-gap: 10px;
     grid-template-areas:
         "chart side-bar"
-        "range side-bar"
     ;
     padding: 20px;
     width: 100vw;
-    max-width: 1050px;
+    max-width: 1200px;
     box-sizing: border-box;
 }
 
@@ -32,7 +31,6 @@
 }
 
 #range-selector {
-    grid-area: range;
     display: grid;
     grid-auto-flow: column;
     grid-template-columns: max-content 1fr;

@@ -115,6 +115,26 @@ const App = ({ data: inputData }: { data: IData }) => {
             <div
                 id="side-bar"
             >
+                <div
+                    id="range-selector"
+                >
+                    <div>{years[dataInd]}</div>
+
+                    <input
+                        type="range"
+                        value={dataInd}
+                        onChange={(e) => {
+                            e.preventDefault()
+                            e.stopPropagation()
+
+                            setDataInd(parseInt(e.currentTarget.value, 10))
+                        }}
+                        min="0"
+                        max={years.length - 1}
+                    />
+
+                </div>
+
                 <Select
                     options={options}
                     hideSelectedOptions={true}
@@ -144,25 +164,6 @@ const App = ({ data: inputData }: { data: IData }) => {
                 />
             </div>
 
-            <div
-                id="range-selector"
-            >
-                <div>{years[dataInd]}</div>
-
-                <input
-                    type="range"
-                    value={dataInd}
-                    onChange={(e) => {
-                        e.preventDefault()
-                        e.stopPropagation()
-
-                        setDataInd(parseInt(e.currentTarget.value, 10))
-                    }}
-                    min="0"
-                    max={years.length - 1}
-                />
-
-            </div>
         </div>
     )
 }

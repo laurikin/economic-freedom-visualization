@@ -4,7 +4,7 @@
 }
 
 .scatterplot.selection {
-    fill: lightgray;
+    fill: #ddd;
 }
 
 .scatterplot .highlight circle {
@@ -15,7 +15,7 @@
 }
 
 .scatterplot .highlight circle.selection-mode {
-    fill: lightgray;
+    fill: #ddd;
 }
 
 .scatterplot .highlight circle.selected {
