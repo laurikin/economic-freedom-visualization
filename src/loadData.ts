@@ -66,7 +66,7 @@ export const loadData = async (url: string): Promise<IData> => {
     return {
         years,
         data,
-        xDomain: [0, d3.max(rawData, row => row.x) ?? 0],
+        xDomain: [2, 9],
         yDomain: [d3.max(rawData, row => row.y) ?? 0, 0]
     }
 
