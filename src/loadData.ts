@@ -25,7 +25,7 @@ export const loadData = async (url: string): Promise<IData> => {
         const id = row.Country
         const label = row.Country
         const year = row.Year
-        const x = parseFloat((row['Economic Freedom Summary Index'] ?? '').replace(/\,/, '.')) ?? null
+        const x = parseFloat((row['Economic Freedom Summary Index'] ?? '').replace(/,/, '.')) ?? null
         const y = parseFloat(row.GDP ?? '') ?? null
 
         if (year && id && label && x && y) {

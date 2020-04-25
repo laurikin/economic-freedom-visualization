@@ -16,7 +16,7 @@ const App = ({ data: inputData }: { data: IData }) => {
     const width = 600
     const height = 500
 
-    const { xDomain, yDomain, trailplotData } = inputData
+    const { xDomain: initialXDomain, yDomain: initialYDomain, trailplotData } = inputData
     const datas = inputData.data
     const years = inputData.years
     const countries = inputData.countries
@@ -39,6 +39,24 @@ const App = ({ data: inputData }: { data: IData }) => {
             .filter(c => selection.has(c))
             .map(c => ({ id: c, label: c }))
     ), [countries, selection])
+
+    const [xDomain, yDomain] = useMemo(() => {
+        if (selection.size === 0) {
+            return [initialXDomain, initialYDomain]
+        } else {
+            const values = Array.from(selection).reduce((acc: { x: number, y: number }[], id) => {
+                trailplotData[id].data.forEach((point) => {
+                    if (point !== null) {
+                        acc.push(point)
+                    }
+                })
+                return acc
+            }, [])
+            const xDomain = initialXDomain
+            const yDomain: [number, number] = [d3.max(values, v => v.y) ?? initialYDomain[1], 0]
+            return [xDomain, yDomain]
+        }
+    }, [trailplotData, selection, initialXDomain, initialYDomain])
 
     useEffect(() => {
         const newDomain = domain.slice(0);

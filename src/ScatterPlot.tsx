@@ -47,13 +47,13 @@ export const ScatterPlot = ({
         d3.scaleLinear()
             .domain(xDomain)
             .range([0, width])
-    ), [xDomain])
+    ), [xDomain, width])
 
     const yScale = useMemo(() => (
         d3.scaleLinear()
             .domain(yDomain)
             .range([0, height])
-    ), [yDomain])
+    ), [yDomain, height])
 
     // use d3 to render the axes after mounting the component
     useEffect(() => {

@@ -54,13 +54,13 @@ export const TrailPlot = ({
         d3.scaleLinear()
             .domain(xDomain)
             .range([0, width])
-    ), [xDomain])
+    ), [xDomain, width])
 
     const yScale = useMemo(() => (
         d3.scaleLinear()
             .domain(yDomain)
             .range([0, height])
-    ), [yDomain])
+    ), [yDomain, height])
 
     return (
         <svg
