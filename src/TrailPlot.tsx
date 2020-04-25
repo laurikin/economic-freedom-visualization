@@ -77,24 +77,27 @@ export const TrailPlot = ({
                                 color={colorScale(id)}
                             />
 
-                            <g
-                                className="highlight-point"
-                                transform={`translate(${highlightPoint[0]}, ${highlightPoint[1]})`}
-                            >
-                                <circle
-                                    stroke="black"
-                                    fill={colorScale(id)}
-                                    strokeWidth="2"
-                                    r="8"
-                                    onClick={(e) => {
-                                        e.preventDefault()
-                                        e.stopPropagation()
-                                        const newSelection = new Set(selection);
-                                        newSelection.delete(id)
-                                        onSelect(newSelection)
-                                    }}
-                                />
-                            </g>
+                            {highlightPoint &&
+
+                                <g
+                                    className="highlight-point"
+                                    transform={`translate(${highlightPoint[0]}, ${highlightPoint[1]})`}
+                                >
+                                    <circle
+                                        stroke="black"
+                                        fill={colorScale(id)}
+                                        strokeWidth="2"
+                                        r="8"
+                                        onClick={(e) => {
+                                            e.preventDefault()
+                                            e.stopPropagation()
+                                            const newSelection = new Set(selection);
+                                            newSelection.delete(id)
+                                            onSelect(newSelection)
+                                        }}
+                                    />
+                                </g>
+                            }
                         </g>
                     )
                 })}
