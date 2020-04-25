@@ -10,6 +10,7 @@ export interface IRecord {
 
 export interface IData {
     years: number[]
+    countries: string[]
     data: IRecord[][]
     xDomain: [number, number],
     yDomain: [number, number]
@@ -39,15 +40,19 @@ export const loadData = async (url: string): Promise<IData> => {
         return acc
     }, []);
 
-    const yearSet: Set<number> = new Set();
+    const yearSet: Set<number> = new Set()
+    const countrySet: Set<string> = new Set()
     rawData.forEach((row) => {
         if (row.year) {
             yearSet.add(parseInt(row.year, 10))
+            countrySet.add(row.label)
         }
     })
 
-    const years = Array.from(yearSet);
+    const years = Array.from(yearSet)
     years.sort(d3.ascending)
+    const countries = Array.from(countrySet)
+    countries.sort(d3.ascending)
 
     interface IYearIndeces { [year: string]: number }
     const yearIndeces: IYearIndeces = years.reduce((acc: IYearIndeces, year, i) => {
@@ -64,6 +69,7 @@ export const loadData = async (url: string): Promise<IData> => {
     }, new Array(years.length))
 
     return {
+        countries,
         years,
         data,
         xDomain: [2, 9],

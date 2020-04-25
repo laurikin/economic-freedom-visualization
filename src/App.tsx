@@ -13,6 +13,7 @@ const App = ({ data: inputData }: { data: IData }) => {
     const { xDomain, yDomain } = inputData
     const datas = inputData.data
     const years = inputData.years
+    const countries = inputData.countries
     const margin = 60
     const width = 600
     const height = 500
@@ -26,11 +27,25 @@ const App = ({ data: inputData }: { data: IData }) => {
     const colorScale = d3.scaleOrdinal(d3.schemeCategory10).domain(domain);
     const data = datas[dataInd % years.length]
 
+    const rowData = useMemo(() => datas.reduce((acc: IRow[], data, i) => {
+        const rows: IRow[] = data.map(d => ({
+            ...d,
+            year: years[i]
+        }))
+        return acc.concat(rows)
+    }, []), [datas])
+
+    const options = useMemo(() => (
+        countries
+            .filter(c => !selection.has(c))
+            .map(c => ({ value: c, label: c }))
+    ), [countries, selection]);
+
     const legendItems = useMemo(() => (
-        data
-            .filter(d => selection.has(d.id))
-            .map(d => ({ id: d.id, label: d.label }))
-    ), [selection, data])
+        countries
+            .filter(c => selection.has(c))
+            .map(c => ({ id: c, label: c }))
+    ), [countries, selection])
 
     useEffect(() => {
         const newDomain = domain.slice(0);
@@ -72,12 +87,6 @@ const App = ({ data: inputData }: { data: IData }) => {
         }
     }, [selection, domain, freeColors])
 
-    const options = useMemo(() => (
-        data
-            .filter(d => !selection.has(d.id))
-            .map(d => ({ value: d.id, label: d.label }))
-    ), [data, selection]);
-
     interface IRow {
         id: string
         label: string
@@ -85,14 +94,6 @@ const App = ({ data: inputData }: { data: IData }) => {
         y: number
         year: number
     }
-
-    const rowData = datas.reduce((acc: IRow[], data, i) => {
-        const rows: IRow[] = data.map(d => ({
-            ...d,
-            year: years[i]
-        }))
-        return acc.concat(rows)
-    }, [])
 
     const trailplotData: ITrailPlotData = rowData.reduce((acc: ITrailPlotData, row) => {
         acc[row.id] = acc[row.id] || {
