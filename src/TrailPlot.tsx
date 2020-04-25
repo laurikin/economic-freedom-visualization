@@ -8,10 +8,10 @@ export type Selection = Set<string>
 export interface ITrailPlotDatum {
     id: string
     label: string
-    data: {
+    data: ({
         x: number
         y: number
-    }[]
+    } | null)[]
 }
 
 export interface ITrailPlotData {
@@ -64,9 +64,14 @@ export const TrailPlot = ({
             >
                 {Array.from(selection).map((id) => {
                     const { data: points } = data[id];
-                    const scaledPoints = points.map(({ x, y }) =>
-                        [xScale(x), yScale(y)] as [number, number]
-                    )
+                    const scaledPoints = points.map((point) => {
+                        if (point !== null) {
+                            const { x, y } = point
+                            return [xScale(x), yScale(y)] as [number, number]
+                        } else {
+                            return null
+                        }
+                    })
                     const highlightPoint = scaledPoints[pointIndex];
                     return (
                         <g

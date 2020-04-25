@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import * as d3 from 'd3'
 
 export interface ITrailProps {
-    points: [number, number][],
+    points: ([number, number] | null)[],
     color: string
 }
 
@@ -20,10 +20,12 @@ export const Trail = ({ points, color }: ITrailProps) => {
     return (
         <>
             {points.map((point, i) => {
+                const lastPoint = points[i - 1]
                 if (i < 1) {
-                    return null;
+                    return null
+                } else if (point === null || lastPoint === null) {
+                    return null
                 } else {
-                    const lastPoint = points[i - 1]
                     return (
                         <g
                             key={i}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import * as d3 from 'd3'
 import { ScatterPlot, IScatterPlotSelection } from './ScatterPlot'
-import { TrailPlot, ITrailPlotData } from './TrailPlot'
+import { TrailPlot } from './TrailPlot'
 import { Legend } from './Legend'
 import { IData } from './loadData'
 import Select from 'react-select'
@@ -10,7 +10,7 @@ import './App.css'
 
 const App = ({ data: inputData }: { data: IData }) => {
 
-    const { xDomain, yDomain } = inputData
+    const { xDomain, yDomain, trailplotData } = inputData
     const datas = inputData.data
     const years = inputData.years
     const countries = inputData.countries
@@ -26,14 +26,6 @@ const App = ({ data: inputData }: { data: IData }) => {
 
     const colorScale = d3.scaleOrdinal(d3.schemeCategory10).domain(domain);
     const data = datas[dataInd % years.length]
-
-    const rowData = useMemo(() => datas.reduce((acc: IRow[], data, i) => {
-        const rows: IRow[] = data.map(d => ({
-            ...d,
-            year: years[i]
-        }))
-        return acc.concat(rows)
-    }, []), [datas])
 
     const options = useMemo(() => (
         countries
@@ -86,29 +78,6 @@ const App = ({ data: inputData }: { data: IData }) => {
             setFreeColors(newFreeColors);
         }
     }, [selection, domain, freeColors])
-
-    interface IRow {
-        id: string
-        label: string
-        x: number
-        y: number
-        year: number
-    }
-
-    const trailplotData: ITrailPlotData = rowData.reduce((acc: ITrailPlotData, row) => {
-        acc[row.id] = acc[row.id] || {
-            id: row.id,
-            label: row.label,
-            data: []
-        }
-        acc[row.id].data.push({
-            x: row.x,
-            y: row.y
-        })
-
-        const a = acc
-        return a
-    }, {})
 
     return (
         <div

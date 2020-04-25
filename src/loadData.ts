@@ -1,4 +1,5 @@
 import * as d3 from 'd3'
+import { ITrailPlotData } from './TrailPlot'
 
 export interface IRecord {
     year: string
@@ -12,6 +13,7 @@ export interface IData {
     years: number[]
     countries: string[]
     data: IRecord[][]
+    trailplotData: ITrailPlotData
     xDomain: [number, number],
     yDomain: [number, number]
 }
@@ -68,10 +70,30 @@ export const loadData = async (url: string): Promise<IData> => {
         return acc;
     }, new Array(years.length))
 
+
+    const trailplotData: ITrailPlotData = rawData.reduce((acc: ITrailPlotData, row) => {
+        acc[row.id] = acc[row.id] || {
+            id: row.id,
+            label: row.label,
+            data: Array(years.length).fill(null)
+        }
+
+        acc[row.id].data[yearIndeces[row.year]] = {
+            x: row.x,
+            y: row.y
+        }
+
+        const a = acc
+        return a
+    }, {})
+
+
+
     return {
         countries,
         years,
         data,
+        trailplotData,
         xDomain: [2, 9],
         yDomain: [d3.max(rawData, row => row.y) ?? 0, 0]
     }
