@@ -13,8 +13,11 @@
 }
 
 .legend .color-patch {
-    width: 25px;
-    height: 12px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin-top: 1px;
+    box-sizing: border-box;
 }
 
 .legend .label {
