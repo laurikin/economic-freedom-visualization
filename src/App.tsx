@@ -26,8 +26,6 @@ const App = ({ data: inputData }: { data: IData }) => {
     const colorScale = d3.scaleOrdinal(d3.schemeCategory10).domain(domain);
     const data = datas[dataInd % years.length]
 
-    console.log(data);
-
     const legendItems = useMemo(() => (
         data
             .filter(d => selection.has(d.id))
