@@ -39,15 +39,18 @@ export const loadData = async (url: string): Promise<IData> => {
         return acc
     }, []);
 
-    const years: Set<number> = new Set();
+    const yearSet: Set<number> = new Set();
     rawData.forEach((row) => {
         if (row.year) {
-            years.add(parseInt(row.year, 10))
+            yearSet.add(parseInt(row.year, 10))
         }
     })
 
+    const years = Array.from(yearSet);
+    years.sort(d3.ascending)
+
     interface IYearIndeces { [year: string]: number }
-    const yearIndeces: IYearIndeces = Array.from(years).reduce((acc: IYearIndeces, year, i) => {
+    const yearIndeces: IYearIndeces = years.reduce((acc: IYearIndeces, year, i) => {
         acc[year.toString()] = i
         return acc
     }, {});
@@ -58,10 +61,10 @@ export const loadData = async (url: string): Promise<IData> => {
         acc[yearIndex] = acc[yearIndex] ?? []
         acc[yearIndex].push(row)
         return acc;
-    }, new Array(years.size))
+    }, new Array(years.length))
 
     return {
-        years: Array.from(years),
+        years,
         data,
         xDomain: [0, d3.max(rawData, row => row.x) ?? 0],
         yDomain: [d3.max(rawData, row => row.y) ?? 0, 0]
