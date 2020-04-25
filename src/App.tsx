@@ -1,16 +1,18 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import * as d3 from 'd3'
-
 import { ScatterPlot, IScatterPlotSelection } from './ScatterPlot'
-import { datas, years } from './data'
 import { TrailPlot, ITrailPlotData } from './TrailPlot'
 import { Legend } from './Legend'
+import { IData } from './loadData'
 import Select from 'react-select'
 
 import './App.css'
 
-const App = () => {
+const App = ({ data: inputData }: { data: IData }) => {
 
+    const { xDomain, yDomain } = inputData
+    const datas = inputData.data
+    const years = inputData.years
     const margin = 60
     const width = 600
     const height = 500
@@ -23,9 +25,8 @@ const App = () => {
 
     const colorScale = d3.scaleOrdinal(d3.schemeCategory10).domain(domain);
     const data = datas[dataInd % years.length]
-    const xDomain: [number, number] = [0, 10]
-    const yDomain: [number, number] = [10, 0]
 
+    console.log(data);
 
     const legendItems = useMemo(() => (
         data
