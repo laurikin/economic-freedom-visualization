@@ -6,7 +6,7 @@ import { Legend } from './Legend'
 import { IData, IRecord } from './loadData'
 import Select from 'react-select'
 import { Voronoi } from './Voronoi'
-import { Highlight } from './HighLight'
+import { Detail } from './Detail'
 
 import './App.css'
 
@@ -145,6 +145,18 @@ const App = ({ data: inputData }: { data: IData }) => {
                         colorScale={colorScale}
                     />
 
+                    {hoverItem &&
+                        <Detail
+                            marginLeft={marginLeft}
+                            marginRight={marginRight}
+                            marginTop={marginTop}
+                            marginBottom={marginBottom}
+                            width={width}
+                            height={height}
+                            item={hoverItem}
+                        />
+                    }
+
                     <Voronoi
                         xDomain={xDomain}
                         yDomain={yDomain}
@@ -156,34 +168,23 @@ const App = ({ data: inputData }: { data: IData }) => {
                         height={height}
                         data={datas}
                         dataIndex={dataInd}
-                        onSelect={(item) => {
+                        hoverItem={hoverItem}
+                        onHover={(item) => {
                             setHoverItem(item)
+                        }}
+                        onClick={(item) => {
+                            const { id } = item
+                            const newSelection = new Set(selection)
+                            if (selection.has(id)) {
+                                newSelection.delete(id)
+                                setSelection(newSelection)
+                            } else {
+                                newSelection.add(id)
+                                setSelection(newSelection)
+                            }
                         }}
                     />
 
-                    {hoverItem &&
-                        <Highlight
-                            xDomain={xDomain}
-                            yDomain={yDomain}
-                            marginLeft={marginLeft}
-                            marginRight={marginRight}
-                            marginTop={marginTop}
-                            marginBottom={marginBottom}
-                            width={width}
-                            height={height}
-                            item={hoverItem}
-                            onClick={() => {
-                                const { id } = hoverItem
-                                const newSelection = new Set(selection)
-                                if (selection.has(id)) {
-                                    newSelection.delete(id)
-                                    setSelection(newSelection)
-                                } else {
-                                    newSelection.add(id)
-                                    setSelection(newSelection)
-                                }
-                            }}
-                        />
                     }
                 </svg>
             </div>

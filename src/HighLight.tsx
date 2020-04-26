@@ -47,40 +47,13 @@ export const Highlight = ({
             className="highlight"
             viewBox={`0, 0, ${width + marginLeft + marginRight}, ${height + marginTop + marginBottom}`}
         >
-            <g
-                transform={`translate(${marginLeft} ${marginTop})`}
-            >
-                <circle
-                    transform={`translate(${xScale(item.x)}, ${yScale(item.y)})`}
-                    onClick={(e) => {
-                        e.stopPropagation()
-                        onClick()
-                    }}
-                />
-
-                <foreignObject
-                    x={0}
-                    y={0}
-                    width="250"
-                    height="100"
-                >
-                    <div
-                        className="label"
-                    >
-                        <div
-                            className="label-title"
-                        >
-                            {item.label}
-                        </div>
-                        <div>
-                            GDP per capita: {item.y.toFixed(0)}
-                        </div>
-                        <div>
-                            Economic Freedom Score: {item.x.toFixed(2)}
-                        </div>
-                    </div>
-                </foreignObject>
-            </g>
-        </svg>
+            <circle
+                transform={`translate(${xScale(item.x)}, ${yScale(item.y)})`}
+                onClick={(e) => {
+                    e.stopPropagation()
+                    onClick()
+                }}
+            />
+        </svg >
     )
 }

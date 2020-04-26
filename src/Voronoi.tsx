@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 import { IRecord } from './loadData'
 import * as d3 from 'd3'
+import { Highlight } from './HighLight'
 
 export interface IVoronoiProps {
     width: number,
@@ -13,10 +14,26 @@ export interface IVoronoiProps {
     yDomain: [number, number],
     data: IRecord[][],
     dataIndex: number
-    onSelect: (item: IRecord | null) => void
+    onHover: (item: IRecord | null) => void
+    onClick: (item: IRecord) => void
+    hoverItem: IRecord | null
 }
 
-export const Voronoi = ({ xDomain, yDomain, width, height, data, dataIndex, marginTop, marginLeft, marginRight, marginBottom, onSelect }: IVoronoiProps) => {
+export const Voronoi = ({
+    xDomain,
+    yDomain,
+    width,
+    height,
+    data,
+    dataIndex,
+    marginTop,
+    marginLeft,
+    marginRight,
+    marginBottom,
+    onHover,
+    onClick,
+    hoverItem
+}: IVoronoiProps) => {
 
     const xScale = useMemo(() => (
         d3.scaleLinear()
@@ -53,22 +70,58 @@ export const Voronoi = ({ xDomain, yDomain, width, height, data, dataIndex, marg
                 transform={`translate(${marginLeft} ${marginTop})`}
             >
                 {polyLists[dataIndex].map((p, i) => {
+                    const record = data[dataIndex][i]
+                    const clipPathId = `clip-path-${record.id}`
+                    const circleId = `circle-${record.id}`
                     return (
-                        <polygon
-                            fill="white"
-                            opacity="0"
-                            points={p.join()}
-                            stroke="black"
-                            strokeWidth="1"
-                            onMouseEnter={(e) => {
-                                e.preventDefault()
-                                e.stopPropagation()
-                                onSelect(data[dataIndex][i])
+                        <g
+                            key={record.id}
+                            onMouseOver={() => {
+                                onHover(data[dataIndex][i])
                             }}
-                        />
+                            onMouseLeave={() => {
+                                onHover(null)
+                            }}
+                        >
+                            <clipPath
+                                id={clipPathId}
+                            >
+                                <circle
+                                    id={circleId}
+                                    r="30"
+                                    cx={xScale(record.x)}
+                                    cy={yScale(record.y)}
+                                />
+                            </clipPath>
+                            <polygon
+                                clipPath={`url(#${clipPathId})`}
+                                fill="white"
+                                stroke="black"
+                                opacity="0"
+                                points={p.join()}
+                                strokeWidth="1"
+                            />
+                            {hoverItem?.id === record.id &&
+                                <Highlight
+                                    xDomain={xDomain}
+                                    yDomain={yDomain}
+                                    marginLeft={marginLeft}
+                                    marginRight={marginRight}
+                                    marginTop={marginTop}
+                                    marginBottom={marginBottom}
+                                    width={width}
+                                    height={height}
+                                    item={hoverItem}
+                                    onClick={() => {
+                                        onClick(record)
+                                    }}
+                                />
+                            }
+                        </g>
                     )
                 })}
             </g>
         </svg >
     )
 }
+

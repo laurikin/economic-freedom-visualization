@@ -1,7 +1,7 @@
 .highlight circle {
     cursor: pointer;
     r: 5;
-    fill: red;
+    fill: lightblue;
     transition: r 200ms
 }
 
@@ -10,6 +10,7 @@
 }
 
 .highlight .label {
+    background: white;
     display: inline-block;
     width: 200px;
     pointer-events: none;
