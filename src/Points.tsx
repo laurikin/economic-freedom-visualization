@@ -16,13 +16,11 @@ export interface IPointsProps {
     selected: ISelectedIds;
     xScale: d3.ScaleLinear<number, number>;
     yScale: d3.ScaleLinear<number, number>;
-    onMouseEnter: (item: IPointsDatum) => void;
-    onMouseLeave: (item: IPointsDatum) => void;
 }
 
 export type ISelectedIds = Set<string>
 
-export const Points = ({ data, xScale, yScale, selected, onMouseEnter, onMouseLeave }: IPointsProps) => {
+export const Points = ({ data, xScale, yScale, selected }: IPointsProps) => {
 
     return (
         <g
@@ -50,16 +48,7 @@ export const Points = ({ data, xScale, yScale, selected, onMouseEnter, onMouseLe
                                     className="point"
                                     transform={`translate(${xScale(x)}, ${yScale(y)})`}
                                 >
-                                    <circle
-                                        onMouseEnter={(e) => {
-                                            e.stopPropagation();
-                                            onMouseEnter(item)
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.stopPropagation();
-                                            onMouseLeave(item)
-                                        }}
-                                    />
+                                    <circle />
                                 </g>
                             </CSSTransition>
                         );

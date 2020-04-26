@@ -24,7 +24,6 @@ export interface ITrailPlotProps {
     yDomain: [number, number]
     selection: Selection
     pointIndex: number
-    onSelect: (selection: Selection) => void
     colorScale: d3.ScaleOrdinal<string, string>
     marginLeft: number
     marginRight: number
@@ -40,7 +39,6 @@ export const TrailPlot = ({
     yDomain,
     selection,
     pointIndex,
-    onSelect,
     colorScale,
     marginLeft,
     marginRight,
@@ -100,13 +98,6 @@ export const TrailPlot = ({
                                         stroke="black"
                                         fill={colorScale(id)}
                                         strokeWidth="2"
-                                        onClick={(e) => {
-                                            e.preventDefault()
-                                            e.stopPropagation()
-                                            const newSelection = new Set(selection);
-                                            newSelection.delete(id)
-                                            onSelect(newSelection)
-                                        }}
                                     />
                                 </g>
                             }

@@ -10,7 +10,7 @@ export interface ITrailSegmentProps {
     index: number
 }
 
-const transitionTime = 1000 / 10
+const transitionTime = 1000 / 20
 
 export const TrailSegment = ({ startPoint, endPoint, color, strokeWidth, opacity, index }: ITrailSegmentProps) => {
 
@@ -34,11 +34,6 @@ export const TrailSegment = ({ startPoint, endPoint, color, strokeWidth, opacity
         return () => clearTimeout(timeout)
     }, [transitionDelay])
 
-    /* useEffect(() => {
-     *     console.log('changed')
-     * }, [startPoint, endPoint])
-     */
-    /* transition: state === 'done' ? 'none' : `all ${transitionTime}ms linear`, */
     return (
         <path
             style={{

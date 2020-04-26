@@ -1,0 +1,10 @@
+.highlight circle {
+    cursor: pointer;
+    r: 5;
+    fill: red;
+    transition: r 200ms
+}
+
+.highlight circle:hover {
+    r: 7;
+}

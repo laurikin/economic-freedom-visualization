@@ -3,8 +3,10 @@ import * as d3 from 'd3'
 import { ScatterPlot, IScatterPlotSelection } from './ScatterPlot'
 import { TrailPlot } from './TrailPlot'
 import { Legend } from './Legend'
-import { IData } from './loadData'
+import { IData, IRecord } from './loadData'
 import Select from 'react-select'
+import { Voronoi } from './Voronoi'
+import { Highlight } from './HighLight'
 
 import './App.css'
 
@@ -22,10 +24,11 @@ const App = ({ data: inputData }: { data: IData }) => {
     const countries = inputData.countries
     const [dataInd, setDataInd] = useState(0)
     const [selection, setSelection] = useState(new Set() as IScatterPlotSelection)
-    const [domain, setDomain] = useState(Array.from(selection) as (string)[]);
-    const [freeColors, setFreeColors] = useState(new Set() as Set<number>);
+    const [domain, setDomain] = useState(Array.from(selection) as (string)[])
+    const [freeColors, setFreeColors] = useState(new Set() as Set<number>)
+    const [hoverItem, setHoverItem] = useState(null as IRecord | null)
 
-    const colorScale = d3.scaleOrdinal(d3.schemeCategory10).domain(domain);
+    const colorScale = d3.scaleOrdinal(d3.schemeCategory10).domain(domain)
     const data = datas[dataInd % years.length]
 
     const options = useMemo(() => (
@@ -109,6 +112,9 @@ const App = ({ data: inputData }: { data: IData }) => {
             >
                 <svg
                     viewBox={`0, 0, ${width + marginLeft + marginRight}, ${height + marginTop + marginBottom}`}
+                    onMouseLeave={() => {
+                        setHoverItem(null)
+                    }}
                 >
 
                     <ScatterPlot
@@ -122,9 +128,6 @@ const App = ({ data: inputData }: { data: IData }) => {
                         height={height}
                         selection={selection}
                         data={data}
-                        onSelect={(selection) => {
-                            setSelection(selection);
-                        }}
                     />
 
                     <TrailPlot
@@ -140,11 +143,48 @@ const App = ({ data: inputData }: { data: IData }) => {
                         selection={selection}
                         pointIndex={dataInd}
                         colorScale={colorScale}
-                        onSelect={(selection) => {
-                            setSelection(selection);
+                    />
+
+                    <Voronoi
+                        xDomain={xDomain}
+                        yDomain={yDomain}
+                        marginLeft={marginLeft}
+                        marginRight={marginRight}
+                        marginTop={marginTop}
+                        marginBottom={marginBottom}
+                        width={width}
+                        height={height}
+                        data={datas}
+                        dataIndex={dataInd}
+                        onSelect={(item) => {
+                            setHoverItem(item)
                         }}
                     />
 
+                    {hoverItem &&
+                        <Highlight
+                            xDomain={xDomain}
+                            yDomain={yDomain}
+                            marginLeft={marginLeft}
+                            marginRight={marginRight}
+                            marginTop={marginTop}
+                            marginBottom={marginBottom}
+                            width={width}
+                            height={height}
+                            item={hoverItem}
+                            onClick={() => {
+                                const { id } = hoverItem
+                                const newSelection = new Set(selection)
+                                if (selection.has(id)) {
+                                    newSelection.delete(id)
+                                    setSelection(newSelection)
+                                } else {
+                                    newSelection.add(id)
+                                    setSelection(newSelection)
+                                }
+                            }}
+                        />
+                    }
                 </svg>
             </div>
 

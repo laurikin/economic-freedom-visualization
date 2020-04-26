@@ -1,7 +1,6 @@
-import React, { useEffect, useRef, useMemo, useState } from 'react'
+import React, { useEffect, useRef, useMemo } from 'react'
 import * as d3 from 'd3'
-import { CSSTransition } from 'react-transition-group'
-import { Points, IPointsData, IPointsDatum, ISelectedIds } from './Points'
+import { Points, IPointsData, ISelectedIds } from './Points'
 import './ScatterPlot.css'
 
 export type IScatterPlotData = IPointsData
@@ -13,7 +12,6 @@ export interface IScatterPlotProps {
     xDomain: [number, number]
     yDomain: [number, number]
     selection: IScatterPlotSelection
-    onSelect: (selection: IScatterPlotSelection) => void
     marginLeft: number
     marginRight: number
     marginBottom: number
@@ -27,7 +25,6 @@ export const ScatterPlot = ({
     data,
     xDomain,
     yDomain,
-    onSelect,
     selection,
     marginLeft,
     marginRight,
@@ -36,9 +33,6 @@ export const ScatterPlot = ({
     width,
     height
 }: IScatterPlotProps) => {
-
-    const [showLabel, setShowLabel] = useState(false)
-    const [hoverItem, setHoverItem] = useState(null as (IPointsDatum | null))
 
     const xAxisGroup = useRef(null)
     const yAxisGroup = useRef(null)
@@ -69,14 +63,6 @@ export const ScatterPlot = ({
 
     }, [xScale, yScale])
 
-    // make sure label is hidden when new data is rendered
-    useEffect(() => {
-        setShowLabel(false)
-        setHoverItem(null)
-    }, [data])
-
-    const labelLeft = hoverItem ? xScale(hoverItem.x) > width - 130 : false
-
     return (
         <svg
             className={`scatterplot ${selection.size > 0 ? 'selection' : ''}`}
@@ -90,80 +76,7 @@ export const ScatterPlot = ({
                     xScale={xScale}
                     yScale={yScale}
                     selected={selection}
-                    onMouseEnter={(item) => {
-                        setShowLabel(true)
-                        setHoverItem(item)
-                    }}
-                    onMouseLeave={() => { }}
                 />
-                <g
-                >
-                    <CSSTransition
-                        in={showLabel}
-                        className="highlight"
-                        unmountOnExit
-                        timeout={300}
-                    >
-                        <g
-                            className="highlight"
-                            transform={`translate(${xScale(hoverItem?.x ?? 0)}, ${yScale(hoverItem?.y ?? 0)})`}
-                        >
-                            <circle
-                                className={`
-                                    ${hoverItem !== null && selection.has(hoverItem.id) ? 'selected' : ''}
-                                    ${selection.size > 0 ? 'selection-mode' : ''}
-                                `}
-                                onClick={() => {
-                                    if (hoverItem !== null) {
-                                        const newSelection: Set<string> = new Set(selection)
-                                        if (selection.has(hoverItem.id)) {
-                                            newSelection.delete(hoverItem.id)
-                                            onSelect(newSelection);
-                                        } else {
-                                            newSelection.add(hoverItem.id);
-                                            onSelect(newSelection);
-                                        }
-
-
-                                    }
-                                }}
-                                onMouseEnter={() => {
-                                    setShowLabel(true)
-                                }}
-                                onMouseLeave={() => {
-                                    setShowLabel(false)
-                                }}
-                            />
-                        </g>
-                    </CSSTransition>
-                    <CSSTransition
-                        in={showLabel}
-                        className="label-container"
-                        unmountOnExit
-                        timeout={300}
-                    >
-                        <g
-                            className="label-container"
-                            transform={`translate(${xScale(hoverItem?.x ?? 0)}, ${yScale(hoverItem?.y ?? 0)})`}
-                        >
-                            <foreignObject
-                                width="100"
-                                height="50"
-                                x={labelLeft ? -115 : 15}
-                                y="-25"
-                            >
-                                <div
-                                    className="label"
-                                    style={{
-                                        justifyContent: labelLeft ? 'right' : 'left'
-                                    }}
-                                >
-                                    <div className="label-text">{hoverItem?.label ?? ''}</div>
-                                </div>
-                            </foreignObject>
-                        </g>
-                    </CSSTransition>
-                </g>
             </g>
             <g
                 ref={xAxisGroup}
