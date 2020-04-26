@@ -85,7 +85,7 @@ export const ScatterPlot = ({
                 <text
                     className="axis-label"
                     transform={`translate(${width / 2},40)`}
-                >Economic Freedom</text>
+                >Economic Freedom Score</text>
             </g>
             <g ref={yAxisGroup}
                 transform={`translate(${marginLeft - 10}, ${marginTop})`}

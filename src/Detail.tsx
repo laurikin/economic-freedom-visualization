@@ -1,5 +1,6 @@
 import React from 'react'
 import { IRecord } from './loadData'
+import * as d3 from 'd3'
 
 import './Highlight.css'
 
@@ -13,6 +14,8 @@ export interface IDetailProps {
     item: IRecord,
 }
 
+const format = d3.format('$,.0f')
+
 export const Detail = ({
     width,
     height,
@@ -22,7 +25,6 @@ export const Detail = ({
     marginRight,
     marginBottom,
 }: IDetailProps) => {
-
     return (
         <svg
             className="highlight"
@@ -46,7 +48,7 @@ export const Detail = ({
                             {item.label}
                         </div>
                         <div>
-                            GDP per capita: {item.y.toFixed(0)}
+                            GDP per capita: {format(item.y)}
                         </div>
                         <div>
                             Economic Freedom Score: {item.x.toFixed(2)}
