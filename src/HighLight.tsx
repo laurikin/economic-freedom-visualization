@@ -57,6 +57,23 @@ export const Highlight = ({
                         onClick()
                     }}
                 />
+
+                <foreignObject
+                    x={0}
+                    y={0}
+                    width="200"
+                    height="100"
+                >
+                    <div
+                        className="label"
+                    >
+                        <span
+                            className="label-title"
+                        >
+                            {item.label}
+                        </span>
+                    </div>
+                </foreignObject>
             </g>
         </svg>
     )
