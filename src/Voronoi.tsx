@@ -71,8 +71,7 @@ export const Voronoi = ({
             >
                 {polyLists[dataIndex].map((p, i) => {
                     const record = data[dataIndex][i]
-                    const clipPathId = `clip-path-${record.id}`
-                    const circleId = `circle-${record.id}`
+                    const clipPathId = `clip-path-${i}`
                     return (
                         <g
                             key={record.id}
@@ -83,19 +82,20 @@ export const Voronoi = ({
                                 onHover(null)
                             }}
                         >
-                            <clipPath
-                                id={clipPathId}
-                            >
-                                <circle
-                                    id={circleId}
-                                    r="30"
-                                    cx={xScale(record.x)}
-                                    cy={yScale(record.y)}
-                                />
-                            </clipPath>
+                            <defs>
+                                <clipPath
+                                    id={clipPathId}
+                                >
+                                    <circle
+                                        r="30"
+                                        cx={xScale(record.x)}
+                                        cy={yScale(record.y)}
+                                    />
+                                </clipPath>
+                            </defs>
                             <polygon
                                 clipPath={`url(#${clipPathId})`}
-                                fill="white"
+                                fill="blue"
                                 stroke="black"
                                 opacity="0"
                                 points={p.join()}
