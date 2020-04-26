@@ -97,17 +97,13 @@ export const ScatterPlot = ({
                 />
             </g>
             <g
-                style={{
-                    opacity: 0.1
-                }}
+                className="grid-lines"
                 ref={xGridGroup}
                 transform={`translate(${marginLeft}, ${height + marginTop})`}
             >
             </g>
             <g
-                style={{
-                    opacity: 0.1
-                }}
+                className="grid-lines"
                 ref={yGridGroup}
                 transform={`translate(${marginLeft}, ${marginTop})`}
             >

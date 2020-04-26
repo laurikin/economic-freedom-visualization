@@ -12,3 +12,7 @@
     text-anchor: middle;
     font-size: 12px;
 }
+
+.grid-lines {
+    opacity: 0.1;
+}
