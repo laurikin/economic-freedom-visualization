@@ -6,7 +6,11 @@ import { loadData } from './loadData';
 
 ReactDOM.render(
     <React.StrictMode>
-        'Loading Visualization'
+        <div
+            className="loader"
+        >
+            Loading Visualization
+        </div>
     </React.StrictMode>,
     document.getElementById('root')
 );
