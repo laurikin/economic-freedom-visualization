@@ -14,7 +14,7 @@ const App = ({ data: inputData }: { data: IData }) => {
     const marginTop = 20
     const marginBottom = 80
     const marginLeft = 80
-    const marginRight = 80
+    const marginRight = 20
     const width = 600
     const height = 500
 
