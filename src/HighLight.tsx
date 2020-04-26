@@ -61,17 +61,23 @@ export const Highlight = ({
                 <foreignObject
                     x={0}
                     y={0}
-                    width="200"
+                    width="250"
                     height="100"
                 >
                     <div
                         className="label"
                     >
-                        <span
+                        <div
                             className="label-title"
                         >
                             {item.label}
-                        </span>
+                        </div>
+                        <div>
+                            GDP per capita: {item.y.toFixed(0)}
+                        </div>
+                        <div>
+                            Economic Freedom Score: {item.x.toFixed(2)}
+                        </div>
                     </div>
                 </foreignObject>
             </g>
