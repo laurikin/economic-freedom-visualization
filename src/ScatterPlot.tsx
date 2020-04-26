@@ -36,6 +36,8 @@ export const ScatterPlot = ({
 
     const xAxisGroup = useRef(null)
     const yAxisGroup = useRef(null)
+    const xGridGroup = useRef(null)
+    const yGridGroup = useRef(null)
 
     const xScale = useMemo(() => (
         d3.scaleLinear()
@@ -51,17 +53,33 @@ export const ScatterPlot = ({
 
     // use d3 to render the axes after mounting the component
     useEffect(() => {
-        const xAxis = d3.axisBottom(xScale)
         const xSelection = d3.select(xAxisGroup.current)
+        const ySelection = d3.select(yAxisGroup.current)
+        const xGridSelection = d3.select(xGridGroup.current)
+        const yGridSelection = d3.select(yGridGroup.current)
         xSelection.selectAll('g').remove()
+        ySelection.selectAll('g').remove()
+        xGridSelection.selectAll('g').remove()
+        yGridSelection.selectAll('g').remove()
+
+        const xAxis = d3.axisBottom(xScale)
         xSelection.append('g').call(xAxis)
 
         const yAxis = d3.axisLeft(yScale)
-        const ySelection = d3.select(yAxisGroup.current)
-        ySelection.selectAll('g').remove()
         ySelection.append('g').call(yAxis)
 
-    }, [xScale, yScale])
+        const xGridLines = d3.axisTop(xScale)
+            .tickFormat(() => '')
+            .tickSize(height)
+        xGridSelection.append('g').call(xGridLines)
+
+        const yGridLines = d3.axisLeft(yScale)
+            .tickFormat(() => '')
+            .tickSize(-width)
+        yGridSelection.append('g').call(yGridLines)
+
+
+    }, [xScale, yScale, height, width])
 
     return (
         <svg
@@ -77,6 +95,22 @@ export const ScatterPlot = ({
                     yScale={yScale}
                     selected={selection}
                 />
+            </g>
+            <g
+                style={{
+                    opacity: 0.1
+                }}
+                ref={xGridGroup}
+                transform={`translate(${marginLeft}, ${height + marginTop})`}
+            >
+            </g>
+            <g
+                style={{
+                    opacity: 0.1
+                }}
+                ref={yGridGroup}
+                transform={`translate(${marginLeft}, ${marginTop})`}
+            >
             </g>
             <g
                 ref={xAxisGroup}
