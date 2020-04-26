@@ -89,12 +89,30 @@ export const ScatterPlot = ({
             <g
                 transform={`translate(${marginLeft} ${marginTop})`}
             >
-                <Points
-                    data={data}
-                    xScale={xScale}
-                    yScale={yScale}
-                    selected={selection}
-                />
+                <clipPath
+                    id="scatter-plot-clip-path"
+                >
+                    <rect
+                        x="0"
+                        y="0"
+                        width={width}
+                        height={height}
+                        stroke="red"
+                        strokeWidth="2"
+                        opacity="0.2"
+                    />
+                </clipPath>
+
+                <g
+                    clipPath="url(#scatter-plot-clip-path)"
+                >
+                    <Points
+                        data={data}
+                        xScale={xScale}
+                        yScale={yScale}
+                        selected={selection}
+                    />
+                </g>
             </g>
             <g
                 className="grid-lines"
