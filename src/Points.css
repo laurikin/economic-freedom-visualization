@@ -3,7 +3,7 @@
 }
 
 .point-group .point circle {
-    r: 3pt;
+    r: 2pt;
 }
 
 .point-group .point-appear circle {
@@ -11,7 +11,7 @@
 }
 
 .point-group .point-appear-done circle {
-    r: 3pt;
+    r: 2pt;
     transition: r 300ms ease-in-out;
 }
 
@@ -20,12 +20,12 @@
 }
 
 .point-group .point-enter-active circle {
-    r: 3pt;
+    r: 2pt;
     transition: r 300ms ease-in-out;
 }
 
 .point-group .point-exit circle {
-    r: 3pt;
+    r: 2pt;
 }
 
 .point-group .point-exit-active circle {

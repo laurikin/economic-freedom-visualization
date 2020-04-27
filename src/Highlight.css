@@ -1,12 +1,12 @@
 .highlight circle {
     cursor: pointer;
-    r: 5pt;
+    r: 4pt;
     fill: lightblue;
     transition: r 200ms
 }
 
 .highlight circle:hover {
-    r: 7pt;
+    r: 6pt;
 }
 
 .highlight .label {
