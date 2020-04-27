@@ -44,9 +44,11 @@ export const Points = ({ data, xScale, yScale, selected }: IPointsProps) => {
                                 classNames="point"
                             >
                                 <g
+                                    style={{
+                                        transform: `translate(${xScale(x)}px, ${yScale(y)}px)`
+                                    }}
                                     key={id}
                                     className="point"
-                                    transform={`translate(${xScale(x)}, ${yScale(y)})`}
                                 >
                                     <circle />
                                 </g>
