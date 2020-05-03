@@ -196,7 +196,6 @@ const App = ({ data: inputData }: { data: IData }) => {
                         }}
                     />
 
-                    }
                 </svg>
             </div>
 

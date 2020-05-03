@@ -2,8 +2,6 @@ import React, { useMemo } from 'react'
 import { IRecord } from './loadData'
 import * as d3 from 'd3'
 
-import './Highlight.css'
-
 export interface IHighLightProps {
     width: number,
     height: number,

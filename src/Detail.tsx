@@ -2,7 +2,7 @@ import React from 'react'
 import { IRecord } from './loadData'
 import * as d3 from 'd3'
 
-import './Highlight.css'
+import './Detail.css'
 
 export interface IDetailProps {
     width: number,
@@ -27,7 +27,7 @@ export const Detail = ({
 }: IDetailProps) => {
     return (
         <svg
-            className="highlight"
+            className="detail"
             viewBox={`0, 0, ${width + marginLeft + marginRight}, ${height + marginTop + marginBottom}`}
         >
             <g

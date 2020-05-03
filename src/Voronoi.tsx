@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { IRecord } from './loadData'
 import * as d3 from 'd3'
-import { Highlight } from './HighLight'
+import './Voronoi.css'
 
 export interface IVoronoiProps {
     width: number,
@@ -102,20 +102,17 @@ export const Voronoi = ({
                                 strokeWidth="1"
                             />
                             {hoverItem?.id === record.id &&
-                                <Highlight
-                                    xDomain={xDomain}
-                                    yDomain={yDomain}
-                                    marginLeft={marginLeft}
-                                    marginRight={marginRight}
-                                    marginTop={marginTop}
-                                    marginBottom={marginBottom}
-                                    width={width}
-                                    height={height}
-                                    item={hoverItem}
-                                    onClick={() => {
-                                        onClick(record)
-                                    }}
-                                />
+                                <g
+                                    className="highlight"
+                                    transform={`translate(${xScale(hoverItem.x)}, ${yScale(hoverItem.y)})`}
+                                >
+                                    <circle
+                                        onClick={(e) => {
+                                            e.stopPropagation()
+                                            onClick(record)
+                                        }}
+                                    />
+                                </g>
                             }
                         </g>
                     )
