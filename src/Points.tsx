@@ -60,8 +60,7 @@ export const Points = ({ data, xScale, yScale, selected, regions }: IPointsProps
                                 >
                                     <circle
                                         style={{
-                                            fill: color,
-                                            transition: 'fill 300ms'
+                                            fill: color
                                         }}
                                     />
                                 </g>
