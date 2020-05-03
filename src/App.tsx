@@ -49,6 +49,10 @@ const App = ({ data: inputData }: { data: IData }) => {
             .map(r => ({ id: r, label: r }))
     ), [regions])
 
+    const regionColorScale = useMemo(() => (
+        d3.scaleOrdinal(d3.schemeCategory10).domain(regions)
+    ), [regions])
+
     const [zoomToSelection, setZoomToSelection] = useState(false)
 
     const [xDomain, yDomain] = useMemo(() => {
@@ -64,7 +68,7 @@ const App = ({ data: inputData }: { data: IData }) => {
                 return acc
             }, [])
             const xDomain = initialXDomain
-            const yDomain: [number, number] = [d3.max(values, v => v.y) ?? initialYDomain[1], 0]
+            const yDomain: [number, number] = [(d3.max(values, v => v.y) ?? initialYDomain[1]) * 1.02, 0]
             return [xDomain, yDomain]
         }
     }, [trailplotData, selection, initialXDomain, initialYDomain, zoomToSelection])
@@ -258,7 +262,7 @@ const App = ({ data: inputData }: { data: IData }) => {
                 {selection.size === 0 &&
                     <Legend
                         items={regionLegendItems}
-                        colorScale={colorScale}
+                        colorScale={regionColorScale}
                     />
                 }
                 <Legend

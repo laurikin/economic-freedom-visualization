@@ -104,7 +104,7 @@ export const loadData = async (url: string): Promise<IData> => {
         data,
         trailplotData,
         xDomain: [2, 9.5],
-        yDomain: [d3.max(rawData, row => row.y) ?? 0, 0]
+        yDomain: [(d3.max(rawData, row => row.y) ?? 0) * 1.02, 0]
     }
 
 };
