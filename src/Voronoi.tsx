@@ -50,8 +50,8 @@ export const Voronoi = ({
     const voronoi = useMemo(() => (
         d3.voronoi()
             .extent([
-                [0, 0],
-                [width, height]]
+                [-10, -10],
+                [width + 10, height + 10]]
             )
     ), [width, height])
 

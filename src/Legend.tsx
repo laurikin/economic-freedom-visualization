@@ -7,7 +7,7 @@ export interface ILegendProps {
         label: string
     }[]
     colorScale: d3.ScaleOrdinal<string, string>
-    onItemRemove: (id: string, label: string) => void
+    onItemRemove?: (id: string, label: string) => void
 }
 
 export const Legend = ({ items, colorScale, onItemRemove }: ILegendProps) => {
@@ -27,14 +27,16 @@ export const Legend = ({ items, colorScale, onItemRemove }: ILegendProps) => {
                             }}
                         ></div>
                         <div className="label">{label}</div>
-                        <div
-                            className="x-button"
-                            onClick={(e) => {
-                                e.preventDefault()
-                                e.stopPropagation()
-                                onItemRemove(id, label)
-                            }}
-                        >x</div>
+                        {onItemRemove &&
+                            <div
+                                className="x-button"
+                                onClick={(e) => {
+                                    e.preventDefault()
+                                    e.stopPropagation()
+                                    onItemRemove(id, label)
+                                }}
+                            >x</div>
+                        }
                     </div>
                 );
             })}

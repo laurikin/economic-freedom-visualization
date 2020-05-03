@@ -22,6 +22,7 @@ const App = ({ data: inputData }: { data: IData }) => {
     const datas = inputData.data
     const years = inputData.years
     const countries = inputData.countries
+    const regions = inputData.regions
     const [dataInd, setDataInd] = useState(0)
     const [selection, setSelection] = useState(new Set() as IScatterPlotSelection)
     const [domain, setDomain] = useState(Array.from(selection) as (string)[])
@@ -42,6 +43,11 @@ const App = ({ data: inputData }: { data: IData }) => {
             .filter(c => selection.has(c))
             .map(c => ({ id: c, label: c }))
     ), [countries, selection])
+
+    const regionLegendItems = useMemo(() => (
+        regions
+            .map(r => ({ id: r, label: r }))
+    ), [regions])
 
     const [zoomToSelection, setZoomToSelection] = useState(false)
 
@@ -128,6 +134,7 @@ const App = ({ data: inputData }: { data: IData }) => {
                         height={height}
                         selection={selection}
                         data={data}
+                        regions={regions}
                     />
 
                     <TrailPlot
@@ -248,6 +255,12 @@ const App = ({ data: inputData }: { data: IData }) => {
                         }
                     }}
                 />
+                {selection.size === 0 &&
+                    <Legend
+                        items={regionLegendItems}
+                        colorScale={colorScale}
+                    />
+                }
                 <Legend
                     items={legendItems}
                     colorScale={colorScale}

@@ -18,6 +18,7 @@ export interface IScatterPlotProps {
     marginTop: number
     width: number
     height: number
+    regions: string[]
 }
 
 
@@ -31,7 +32,8 @@ export const ScatterPlot = ({
     marginTop,
     marginBottom,
     width,
-    height
+    height,
+    regions
 }: IScatterPlotProps) => {
 
     const xAxisGroup = useRef(null)
@@ -93,10 +95,10 @@ export const ScatterPlot = ({
                     id="scatter-plot-clip-path"
                 >
                     <rect
-                        x="0"
-                        y="0"
-                        width={width}
-                        height={height}
+                        x="-10"
+                        y="-10"
+                        width={width + 20}
+                        height={height + 20}
                         stroke="red"
                         strokeWidth="2"
                         opacity="0.2"
@@ -111,6 +113,7 @@ export const ScatterPlot = ({
                         xScale={xScale}
                         yScale={yScale}
                         selected={selection}
+                        regions={regions}
                     />
                 </g>
             </g>

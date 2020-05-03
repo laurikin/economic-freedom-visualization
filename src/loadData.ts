@@ -5,6 +5,7 @@ export interface IRecord {
     year: string
     id: string
     label: string
+    region: string
     x: number
     y: number
 }
@@ -12,6 +13,7 @@ export interface IRecord {
 export interface IData {
     years: number[]
     countries: string[]
+    regions: string[]
     data: IRecord[][]
     trailplotData: ITrailPlotData
     xDomain: [number, number],
@@ -25,12 +27,14 @@ export const loadData = async (url: string): Promise<IData> => {
         const id = row.Country
         const label = row.Country
         const year = row.Year
+        const region = row['Political Region'] ?? ''
         const x = parseFloat((row['Economic Freedom Summary Index'] ?? '').replace(/,/, '.')) ?? null
         const y = parseFloat(row.GDP ?? '') ?? null
 
         if (year && id && label && x && y) {
             const record: IRecord = {
                 year,
+                region,
                 id,
                 label,
                 x,
@@ -44,10 +48,12 @@ export const loadData = async (url: string): Promise<IData> => {
 
     const yearSet: Set<number> = new Set()
     const countrySet: Set<string> = new Set()
+    const regionSet: Set<string> = new Set()
     rawData.forEach((row) => {
         if (row.year) {
             yearSet.add(parseInt(row.year, 10))
             countrySet.add(row.label)
+            regionSet.add(row.region)
         }
     })
 
@@ -55,6 +61,8 @@ export const loadData = async (url: string): Promise<IData> => {
     years.sort(d3.ascending)
     const countries = Array.from(countrySet)
     countries.sort(d3.ascending)
+    const regions = Array.from(regionSet)
+    regions.sort(d3.ascending)
 
     interface IYearIndeces { [year: string]: number }
     const yearIndeces: IYearIndeces = years.reduce((acc: IYearIndeces, year, i) => {
@@ -91,10 +99,11 @@ export const loadData = async (url: string): Promise<IData> => {
 
     return {
         countries,
+        regions,
         years,
         data,
         trailplotData,
-        xDomain: [2, 9],
+        xDomain: [2, 9.5],
         yDomain: [d3.max(rawData, row => row.y) ?? 0, 0]
     }
 

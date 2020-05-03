@@ -1,46 +1,46 @@
 Country,Political Region
-Albania,Easter Europe
+Albania,Eastern Europe
 Algeria,Africa
 Angola,Africa
 Argentina,Latin America
 Armenia,Central Asia
 Australia,Oceania
-Austria,Western Europe
+Austria,Western Europe and North America
 Azerbaijan,Central Asia
 Bahamas,Caribian Islands
 Bahrain,Middle East
-Bangladesh,South Asia
+Bangladesh,South and East Asia
 Barbados,Caribian Islands
 Belarus,Eastern Europe
-Belgium,Western Europe
+Belgium,Western Europe and North America
 Belize,Latin America
 Benin,Africa
-Bhutan,South Asia
+Bhutan,South and East Asia
 Bolivia,Latin America
 Bosnia and Herzegovina,Eastern Europe
 Botswana,Africa
 Brazil,Latin America
-Brunei Darussalam
+Brunei Darussalam,South and East Asia
 Bulgaria,Eastern Europe
 Burkina Faso,Africa
 Burundi,Africa
-Cambodia,East Asia
+Cambodia,South and East Asia
 Cameroon,Africa
-Canada,North America
+Canada,Western Europe and North America
 Cape Verde,Africa
 Central African Republic,Africa
 Chad,Africa
 Chile,Latin America
-China,East Asia
+China,South and East Asia
 Colombia,Latin America
 "Congo, Dem. Rep.",Africa
 "Congo, Rep. of",Africa
 Costa Rica,Latin America
 Cote d'Ivoire,Africa
 Croatia,Eastern Europe
-Cyprus,Western Europe
+Cyprus,Western Europe and North America
 Czech Rep.,Eastern Europe
-Denmark,Western Europe
+Denmark,Western Europe and North America
 Dominican Republic,Latin America
 Ecuador,Latin America
 Egypt,Africa
@@ -48,78 +48,78 @@ El Salvador,Latin America
 Estonia,Eastern Europe
 Ethiopia,Africa
 Fiji,Oceania
-Finland,Western Europe
-France,Western Europe
+Finland,Western Europe and North America
+France,Western Europe and North America
 Gabon,Africa
 "Gambia, The",Africa
 Georgia,Central Asia
-Germany,Western Europe
+Germany,Western Europe and North America
 Ghana,Africa
-Greece,Western Europe
+Greece,Western Europe and North America
 Guatemala,Latin America
 Guinea,Africa
 Guinea-Bissau,Africa
 Guyana,Latin America
 Haiti,Caribian Islands
 Honduras,Latin America
-Hong Kong,East Asia
+Hong Kong,South and East Asia
 Hungary,Eastern Europe
-Iceland,Western Europe
-India,South Asia
-Indonesia,East Asia
+Iceland,Western Europe and North America
+India,South and East Asia
+Indonesia,South and East Asia
 Iran,Middle East
 Iraq,Middle East
-Ireland,Western Europe
+Ireland,Western Europe and North America
 Israel,Middle East
-Italy,Western Europe
+Italy,Western Europe and North America
 Jamaica,Caribian Islands
-Japan,East Asia
+Japan,South and East Asia
 Jordan,Middle East
 Kazakhstan,Central Asia
 Kenya,Africa
-"Korea, South",East Asia
-Kuwait,Middle East 
+"Korea, South",South and East Asia
+Kuwait,Middle East
 Kyrgyz Republic,Central Asia
-Laos,East Asia
+Laos,South and East Asia
 Latvia,Eastern Europe
 Lebanon,Middle East
 Lesotho,Africa
 Liberia,Africa
 Libya,Africa
 Lithuania,Eastern Europe
-Luxembourg,Western Europe
+Luxembourg,Western Europe and North America
 Macedonia (North Macedonia),Eastern Europe
 Madagascar,Africa
 Malawi,Africa
-Malaysia,East Asia
+Malaysia,South and East Asia
 Mali,Africa
-Malta,Western Europe
+Malta,Western Europe and North America
 Mauritania,Africa
 Mauritius,Africa
 Mexico,Latin America
 Moldova,Eastern Europe
-Mongolia,East Asia
-Montenegro,East Asia
+Mongolia,South and East Asia
+Montenegro,South and East Asia
 Morocco,Africa
 Mozambique,Africa
-Myanmar,South Asia
+Myanmar,South and East Asia
 Namibia,Africa
-Nepal,South Asia
-Netherlands,Western Europe
+Nepal,South and East Asia
+Netherlands,Western Europe and North America
 New Zealand,Oceania
 Nicaragua,Latin America
 Niger,Africa
 Nigeria,Africa
-Norway,Western Africa
+Norway,Western Europe and North America
 Oman,Middle East
-Pakistan,South Asia
+Pakistan,South and East Asia
 Panama,Latin America
 Pap. New Guinea,Oceania
 Paraguay,Latin America
 Peru,Latin America
-Philippines,East Asia
+Philippines,South and East Asia
 Poland,Eastern Europe
-Portugal,Western Europe
+Portugal,Western Europe and North America
 Qatar,Middle East
 Romania,Eastern Europe
 Russia,Eastern Europe
@@ -129,22 +129,22 @@ Senegal,Africa
 Serbia,Eastern Europe
 Seychelles,Africa
 Sierra Leone,Africa
-Singapore,East Asia
+Singapore,South and East Asia
 Slovak Rep,Eastern Europe
 Slovenia,Eastern Europe
 South Africa,Africa
-Spain,Western Europe
+Spain,Western Europe and North America
 Sri Lanka,South Africa
 Sudan,Africa
 Suriname,Africa
 Swaziland (Eswatini),Africa
-Sweden,Western Europe
-Switzerland,Western Europe
+Sweden,Western Europe and North America
+Switzerland,Western Europe and North America
 Syria,Middle East
-Taiwan,East Asia
+Taiwan,South and East Asia
 Tajikistan,Central Asia
 Tanzania,Africa
-Thailand,East Asia
+Thailand,South and East Asia
 Timor-Leste,Oceania
 Togo,Africa
 Trinidad & Tobago,Caribian Islands
@@ -153,11 +153,11 @@ Turkey,Middle East
 Uganda,Africa
 Ukraine,Eastern Europe
 United Arab Emirates,Middle East
-United Kingdom,Western Europe
-United States,North America
+United Kingdom,Western Europe and North America
+United States,Western Europe and North America
 Uruguay,Latin America
 Venezuela,Latin America
-Vietnam,East Asia
+Vietnam,South and East Asia
 "Yemen, Rep.",Middle East
 Zambia,Africa
 Zimbabwe,Africa
